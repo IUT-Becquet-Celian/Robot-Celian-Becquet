@@ -1,0 +1,59 @@
+/* 
+ * File:   main.h
+ * Author: Table2
+ *
+ * Created on 7 février 2020, 13:52
+ */
+
+#ifndef MAIN_H
+#define	MAIN_H
+
+#define STATE_ATTENTE 0
+#define STATE_ATTENTE_EN_COURS 1
+
+#define STATE_AVANCE 2
+#define STATE_AVANCE_EN_COURS 3
+
+#define STATE_TOURNE_GAUCHE 4
+#define STATE_TOURNE_GAUCHE_EN_COURS 5
+
+#define STATE_TOURNE_DROITE 6
+#define STATE_TOURNE_DROITE_EN_COURS 7
+
+#define STATE_TOURNE_SUR_PLACE_GAUCHE 8
+#define STATE_TOURNE_SUR_PLACE_GAUCHE_EN_COURS 9
+
+#define STATE_TOURNE_SUR_PLACE_DROITE 10
+#define STATE_TOURNE_SUR_PLACE_DROITE_EN_COURS 11
+
+#define STATE_TOURNE_DROITE_FAIBLE 12
+#define STATE_TOURNE_DROITE_FAIBLE_EN_COURS 13
+
+#define STATE_TOURNE_GAUCHE_FAIBLE 14
+#define STATE_TOURNE_GAUCHE_FAIBLE_EN_COURS 15
+
+#define STATE_ARRET 16
+#define STATE_ARRET_EN_COURS 17
+
+#define STATE_RECULE 18
+#define STATE_RECULE_EN_COURS 19
+
+#define STATE_AVANCE_FOND 20
+#define STATE_AVANCE_FOND_EN_COURS 21
+
+#define PAS_D_OBSTACLE 0
+#define OBSTACLE_A_GAUCHE 1
+#define OBSTACLE_A_DROITE 2
+#define OBSTACLE_EN_FACE 3
+#define OBSTACLE_EXT_GAUCHE 4
+#define OBSTACLE_EXT_DROIT 5
+#define PAS_D_OBSTACLE_FOND 6
+
+
+// Configuration des paramtères du chip
+#define FCY 40000000
+
+void OperatingSystemLoop (void);
+void SetNextRobotStateInAutomaticMode();
+#endif	/* MAIN_H */
+
