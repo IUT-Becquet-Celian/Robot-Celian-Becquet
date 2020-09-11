@@ -13,6 +13,7 @@ namespace RobotInterface
         public double distanceTelemetreCentre;
 
         public string receivedMessage;
+        public char byteList[];
 
         public Robot()
         {

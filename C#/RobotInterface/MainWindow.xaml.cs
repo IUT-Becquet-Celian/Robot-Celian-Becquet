@@ -24,18 +24,32 @@ namespace RobotInterface
     {
         ReliableSerialPort serialPort1;
         Robot robot = new Robot();
+        System.Windows.Threading.DispatcherTimer timerAffichage;
+
         public MainWindow()
         {
             InitializeComponent();
-            serialPort1 = new ReliableSerialPort("COM4", 115200, System.IO.Ports.Parity.None, 8, System.IO.Ports.StopBits.One);
+            serialPort1 = new ReliableSerialPort("COM5", 115200, System.IO.Ports.Parity.None, 8, System.IO.Ports.StopBits.One);
             serialPort1.Open();
             serialPort1.DataReceived += SerialPort1_DataReceived;
+            timerAffichage = new System.Windows.Threading.DispatcherTimer();
+            timerAffichage.Tick += TimerAffichage_Tick;
+            timerAffichage.Interval = new TimeSpan(0, 0, 0, 0, 100);
+            timerAffichage.Start();
         }
-        
+
+        private void TimerAffichage_Tick(object sender, EventArgs e)
+        {
+            if (robot.receivedMessage != "")
+            {
+                textBoxReception.Text += robot.receivedMessage;
+                robot.receivedMessage = "";
+            }
+        }
+
         private void SerialPort1_DataReceived(object sender, DataReceivedArgs e)
         {
-            string dataReceived = Encoding.UTF8.GetString(e.Data, 0, e.Data.Length);
-            textBoxReception.Text += "Reçu : " + dataReceived + "\n";
+            robot.receivedMessage += Encoding.UTF8.GetString(e.Data, 0, e.Data.Length);
         }
 
         bool toggle = false;
@@ -59,6 +73,15 @@ namespace RobotInterface
             serialPort1.WriteLine(textBoxEmission.Text);
             textBoxEmission.Text = "";            
         }
+        private void Clear()
+        {
+            textBoxReception.Text = "";
+        }
+        private void Test()
+        {
+            byteList[i] = (byte)(2 * i);
+            serialPort1.WriteLine()
+        }
 
         private void textBoxEmission_KeyUp(object sender, KeyEventArgs e)
         {
@@ -68,6 +91,7 @@ namespace RobotInterface
             }
 
         }
+        
 
         byte CalculateChecksum(int msgFunction, int msgPayloadLength, byte[] msgPayload)
         {
@@ -84,5 +108,34 @@ namespace RobotInterface
             return checksum;
         }
 
+        private void buttonClear_Click(object sender, RoutedEventArgs e)
+        {
+            Clear();
+
+            if (toggle)
+            {
+                buttonClear.Background = Brushes.RoyalBlue;
+            }
+            else
+            {
+                buttonClear.Background = Brushes.Beige;
+            }
+            toggle = !toggle;
+        }
+
+        private void buttonTest_Click(object sender, RoutedEventArgs e)
+        {
+            Test();
+
+            if(toggle)
+            {
+                buttonTest.Background = Brushes.RoyalBlue;
+            }
+            else
+            {
+                buttonTest.Background = Brushes.Beige;
+            }
+            toggle = !toggle;
+        }
     }
 }
