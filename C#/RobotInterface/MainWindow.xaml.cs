@@ -40,48 +40,31 @@ namespace RobotInterface
 
         private void TimerAffichage_Tick(object sender, EventArgs e)
         {
-            if (robot.receivedMessage != "")
+            //if (robot.receivedMessage != "")
+            //{
+            //    textBoxReception.Text += robot.receivedMessage;
+            //    robot.receivedMessage = "";
+            //}
+            while(robot.byteListReceived.Count>0)
             {
-                textBoxReception.Text += robot.receivedMessage;
-                robot.receivedMessage = "";
+                byte b = robot.byteListReceived.Dequeue();
+                textBoxReception.Text += "Ox" +  b.ToString("X2")+" " ;
             }
         }
 
         private void SerialPort1_DataReceived(object sender, DataReceivedArgs e)
         {
-            robot.receivedMessage += Encoding.UTF8.GetString(e.Data, 0, e.Data.Length);
+            //robot.receivedMessage += Encoding.UTF8.GetString(e.Data, 0, e.Data.Length);
+            foreach(byte b in e.Data)
+            {
+                robot.byteListReceived.Enqueue(b);
+            }
+            
         }
 
         bool toggle = false;
-        private void buttonEnvoyer_Click(object sender, RoutedEventArgs e)
-        {
-            Envoi();
+       
 
-            if (toggle)
-            {
-                buttonEnvoyer.Background = Brushes.RoyalBlue;
-            }
-            else
-            {
-                buttonEnvoyer.Background = Brushes.Beige;
-            }
-            toggle = !toggle;
-        }
-
-        private void Envoi()
-        {            
-            serialPort1.WriteLine(textBoxEmission.Text);
-            textBoxEmission.Text = "";            
-        }
-        private void Clear()
-        {
-            textBoxReception.Text = "";
-        }
-        private void Test()
-        {
-            byteList[i] = (byte)(2 * i);
-            serialPort1.WriteLine()
-        }
 
         private void textBoxEmission_KeyUp(object sender, KeyEventArgs e)
         {
@@ -108,6 +91,21 @@ namespace RobotInterface
             return checksum;
         }
 
+
+        private void buttonEnvoyer_Click(object sender, RoutedEventArgs e)
+        {
+            Envoi();
+
+            if (toggle)
+            {
+                buttonEnvoyer.Background = Brushes.RoyalBlue;
+            }
+            else
+            {
+                buttonEnvoyer.Background = Brushes.Beige;
+            }
+            toggle = !toggle;
+        }
         private void buttonClear_Click(object sender, RoutedEventArgs e)
         {
             Clear();
@@ -122,7 +120,6 @@ namespace RobotInterface
             }
             toggle = !toggle;
         }
-
         private void buttonTest_Click(object sender, RoutedEventArgs e)
         {
             Test();
@@ -137,5 +134,30 @@ namespace RobotInterface
             }
             toggle = !toggle;
         }
+
+
+        private void Envoi()
+        {
+            serialPort1.WriteLine(textBoxEmission.Text);
+            textBoxEmission.Text = "";
+        }
+        private void Clear()
+        {
+            textBoxReception.Text = "";
+        }
+        private void Test()
+        {
+            byte[] byteList = new byte[20];
+            int i;
+            for (i = 0; i < 20; i++)
+            {
+                byteList[i] = (byte)(2 * i);
+            }
+            serialPort1.Write(byteList, 0, byteList.Count());
+            textBoxReception.Text += "\n"+"\n";
+
+
+        }
+
     }
 }
