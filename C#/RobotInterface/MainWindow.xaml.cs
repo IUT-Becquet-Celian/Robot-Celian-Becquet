@@ -156,8 +156,6 @@ namespace RobotInterface
             serialPort1.Write(byteList, 0, byteList.Count());
             textBoxReception.Text += "\n"+"\n";
 
-
         }
-
     }
 }
