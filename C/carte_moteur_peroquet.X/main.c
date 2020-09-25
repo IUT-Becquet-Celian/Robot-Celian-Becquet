@@ -59,8 +59,8 @@ int main(void) {
             robotState.distanceTelemetreExterieurGauche = 34/volts-5;
         }     
         
-        SendMessageDirect((unsigned char *)"Bonjour", 7);     
-        __delay32(4000000);   
+        /*SendMessageDirect((unsigned char *)"Bonjour", 7);     
+        __delay32(4000000); */  
     } 
 }
 
