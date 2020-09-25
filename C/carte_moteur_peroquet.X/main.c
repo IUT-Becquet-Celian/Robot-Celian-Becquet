@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <xc.h>
+#include <libpic30.h>
 #include "ChipConfig.h"
 #include "IO.h"
 #include "timer.h"
@@ -9,6 +10,7 @@
 #include "ADC.h"
 #include "main.h"
 #include "time.h"
+#include "UART.h"
 
 
 int main(void) {
@@ -30,6 +32,7 @@ int main(void) {
     InitTimer1();
     InitTimer4();
     InitADC1();
+    InitUART();
    // int ADCValue0, ADCValue1, ADCValue2;
    
    
@@ -54,10 +57,10 @@ int main(void) {
             robotState.distanceTelemetreInterieurGauche = 34/volts-5;
             volts = ((float) result[3]) * 3.3 / 4096 * 3.2 ;
             robotState.distanceTelemetreExterieurGauche = 34/volts-5;
-        }
+        }     
         
-       
-        
+        SendMessageDirect((unsigned char *)"Bonjour", 7);     
+        __delay32(4000000);   
     } 
 }
 
@@ -183,7 +186,6 @@ void OperatingSystemLoop(void) {
         }
     
     }
-
 
 unsigned char nextStateRobot = 0;
 

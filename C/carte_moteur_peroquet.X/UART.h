@@ -8,18 +8,8 @@
 #ifndef UART_H
 #define	UART_H
 
-#ifdef	__cplusplus
-extern "C" {
-#endif
-
-
 void InitUART (void);
-
-
-
-#ifdef	__cplusplus
-}
-#endif
+void SendMessageDirect (unsigned char* message , int length);
 
 #endif	/* UART_H */
 

@@ -6,9 +6,9 @@
 #define BRGVAL ((FCY/BAUDRATE)/4)-1
 
 void InitUART ( void) {
-    U1MODEbits.STSEL = 0 ; // 1?stop bit
+    U1MODEbits.STSEL = 0 ; // 1-stop bit
     U1MODEbits.PDSEL = 0 ; // No Parity , 8?data bits
-    U1MODEbits.ABAUD = 0 ; // Auto?Baud Disabled
+    U1MODEbits.ABAUD = 0 ; // Auto-Baud Disabled
     U1MODEbits.BRGH = 1 ; // Low Speed mode
     U1BRG = BRGVAL; // BAUD Rate Setting
     
@@ -23,4 +23,14 @@ void InitUART ( void) {
     
     U1MODEbits.UARTEN = 1 ; // Enable UART
     U1STAbits.UTXEN = 1 ; // Enable UART Tx
+}
+
+void SendMessageDirect (unsigned char* message , int length)
+{
+    unsigned char i=0;
+    for (i=0;i<length;i++)
+    {
+        while (U1STAbits.UTXBF); // wait while Tx buffer full
+        U1TXREG = *(message)++; // Transmit one character
+    }
 }
