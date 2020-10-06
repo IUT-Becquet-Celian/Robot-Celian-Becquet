@@ -9,7 +9,7 @@
 #define	CB_TX1_H
 
 int CB_TX1_RemainingSize(void);
-int CB_TX1_IsTranmitting(void);
+unsigned char CB_TX1_IsTranmitting(void);
 
 void CB_TX1_Add(unsigned char);
 unsigned char CB_TX1_Get(void);

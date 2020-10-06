@@ -58,4 +58,3 @@ C:\Github\Robot-Celian-Becquet\C#\RobotInterface\obj\Debug\RobotInterface.csproj
 C:\Github\Robot-Celian-Becquet\C#\RobotInterface\obj\Debug\RobotInterface.csproj.CopyComplete
 C:\Github\Robot-Celian-Becquet\C#\RobotInterface\obj\Debug\RobotInterface.exe
 C:\Github\Robot-Celian-Becquet\C#\RobotInterface\obj\Debug\RobotInterface.pdb
-C:\Github\Robot-Celian-Becquet\C#\RobotInterface\obj\Debug\RobotInterface.csproj.CoreCompileInputs.cache

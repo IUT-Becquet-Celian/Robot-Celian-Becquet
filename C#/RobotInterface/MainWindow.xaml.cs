@@ -29,7 +29,7 @@ namespace RobotInterface
         public MainWindow()
         {
             InitializeComponent();
-            serialPort1 = new ReliableSerialPort("COM4", 115200, System.IO.Ports.Parity.None, 8, System.IO.Ports.StopBits.One);
+            serialPort1 = new ReliableSerialPort("COM22", 115200, System.IO.Ports.Parity.None, 8, System.IO.Ports.StopBits.One);
             serialPort1.Open();
             serialPort1.DataReceived += SerialPort1_DataReceived;
             timerAffichage = new System.Windows.Threading.DispatcherTimer();
@@ -48,7 +48,8 @@ namespace RobotInterface
             while(robot.byteListReceived.Count>0)
             {
                 byte b = robot.byteListReceived.Dequeue();
-                textBoxReception.Text += "Ox" +  b.ToString("X2")+" " ;
+                textBoxReception.Text +=  Convert.ToChar(b);
+                //textBoxReception.Text += "Ox" + b.ToString("X2") + " ";
             }
         }
 
