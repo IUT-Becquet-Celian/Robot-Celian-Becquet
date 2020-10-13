@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.RightsManagement;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -29,7 +30,7 @@ namespace RobotInterface
         public MainWindow()
         {
             InitializeComponent();
-            serialPort1 = new ReliableSerialPort("COM22", 115200, System.IO.Ports.Parity.None, 8, System.IO.Ports.StopBits.One);
+            serialPort1 = new ReliableSerialPort("COM4", 115200, System.IO.Ports.Parity.None, 8, System.IO.Ports.StopBits.One);
             serialPort1.Open();
             serialPort1.DataReceived += SerialPort1_DataReceived;
             timerAffichage = new System.Windows.Threading.DispatcherTimer();
@@ -76,7 +77,6 @@ namespace RobotInterface
 
         }
         
-
         byte CalculateChecksum(int msgFunction, int msgPayloadLength, byte[] msgPayload)
         {
             byte checksum = 0;
@@ -92,6 +92,30 @@ namespace RobotInterface
             return checksum;
         }
 
+        void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, byte[] msgPayload)
+        {
+
+            byte[] trame = new byte[6+msgPayloadLength];
+
+            int pos = 0;
+
+            trame[pos++] = 0xFE;
+
+            trame[pos++] = (byte)(msgFunction >> 8);
+            trame[pos++] = (byte)(msgFunction >> 0);
+
+            trame[pos++] = (byte)(msgPayloadLength >> 8);
+            trame[pos++] = (byte)(msgPayloadLength >> 0);
+
+            for(int j=0 ; j<msgPayloadLength; j++)
+            {
+                trame[pos++] = msgPayload[j];
+            }
+
+            trame[pos++] = (byte)(CalculateChecksum(msgFunction, msgPayloadLength, msgPayload));
+            serialPort1.Write(trame, 0, pos);
+
+        }
 
         private void buttonEnvoyer_Click(object sender, RoutedEventArgs e)
         {
@@ -147,16 +171,9 @@ namespace RobotInterface
             textBoxReception.Text = "";
         }
         private void Test()
-        {
-            byte[] byteList = new byte[20];
-            int i;
-            for (i = 0; i < 20; i++)
-            {
-                byteList[i] = (byte)(2 * i);
-            }
-            serialPort1.Write(byteList, 0, byteList.Count());
-            textBoxReception.Text += "\n"+"\n";
-
+        { 
+            byte[] array = Encoding.ASCII.GetBytes("Bonjour");
+            UartEncodeAndSendMessage(0x0080, array.Length, array);
         }
     }
 }
