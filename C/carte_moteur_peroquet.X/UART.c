@@ -35,6 +35,8 @@ void SendMessageDirect (unsigned char* message , int length)
     }
 }
 
+
+
 //Interruption en mode loopback
 //void __attribute__((interrupt , no_auto_psv))_U1RXInterrupt(void) {
 //IFS0bits.U1RXIF=0;//clear RX interrupt flag

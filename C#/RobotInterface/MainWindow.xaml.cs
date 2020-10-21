@@ -26,6 +26,16 @@ namespace RobotInterface
         ReliableSerialPort serialPort1;
         Robot robot = new Robot();
         System.Windows.Threading.DispatcherTimer timerAffichage;
+        bool toggle = false;
+
+        //Declarations a propos de DecodeMessage :
+        StateReception rcvState = StateReception.Waiting;
+        int msgDecodedFunction = 0;
+        int msgDecodedPayloadLength = 0;
+        byte[] msgDecodedPayload;
+        int msgDecodedPayloadIndex = 0;
+        //fin de declarations a propos de DecodeMessage
+
 
         public MainWindow()
         {
@@ -37,6 +47,16 @@ namespace RobotInterface
             timerAffichage.Tick += TimerAffichage_Tick;
             timerAffichage.Interval = new TimeSpan(0, 0, 0, 0, 100);
             timerAffichage.Start();
+        }
+        public enum StateReception
+        {
+            Waiting,
+            FunctionMSB,
+            FunctionLSB,
+            PayloadLengthMSB,
+            PayloadLengthLSB,
+            Payload,
+            CheckSum
         }
 
         private void TimerAffichage_Tick(object sender, EventArgs e)
@@ -64,10 +84,6 @@ namespace RobotInterface
             
         }
 
-        bool toggle = false;
-       
-
-
         private void textBoxEmission_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -77,6 +93,10 @@ namespace RobotInterface
 
         }
         
+
+
+
+
         byte CalculateChecksum(int msgFunction, int msgPayloadLength, byte[] msgPayload)
         {
             byte checksum = 0;
@@ -116,6 +136,64 @@ namespace RobotInterface
             serialPort1.Write(trame, 0, pos);
 
         }
+
+
+        private void DecodeMessage(byte c)
+        {
+            switch (rcvState)
+            {
+                case StateReception.Waiting:
+                    if (c == 0xFE)
+                        rcvState = StateReception.FunctionMSB;                    
+                    break;
+
+                case StateReception.FunctionMSB:
+                    msgDecodedFunction = c << 8;
+                    rcvState = StateReception.FunctionLSB;
+                    break;
+
+                case StateReception.FunctionLSB:
+                    msgDecodedFunction += c << 0;
+                    rcvState = StateReception.PayloadLengthMSB;
+                    break;
+
+                case StateReception.PayloadLengthMSB:
+                    msgDecodedPayloadLength = c << 8;
+                    rcvState = StateReception.PayloadLengthLSB;
+                    break;
+
+                case StateReception.PayloadLengthLSB:
+                    msgDecodedPayloadLength += c << 0;
+                    msgDecodedPayload = new byte[msgDecodedPayloadLength];
+                    rcvState = StateReception.Payload;
+                    break;
+
+                case StateReception.Payload:
+                    if (msgDecodedPayloadIndex < msgDecodedPayloadLength)
+                    {
+                        msgDecodedPayload[msgDecodedPayloadIndex] = c;
+                        msgDecodedPayloadIndex++;
+                    }    
+                    if (msgDecodedPayloadIndex >= msgDecodedPayloadLength)
+                        rcvState = StateReception.CheckSum;
+                    break;
+
+                case StateReception.CheckSum:
+                    byte receivedChecksum = c;
+                    byte calculatedChecksum = CalculateChecksum(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload);
+                    //if(calculatedChecksum == receivedChecksum)
+                    //{
+                    //    ProcessDecodedMessage(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload);
+                    //}
+                    rcvState = StateReception.Waiting;
+                    break;
+                default:
+                    rcvState = StateReception.Waiting;
+                    break;
+            }
+        }
+
+
 
         private void buttonEnvoyer_Click(object sender, RoutedEventArgs e)
         {
@@ -159,6 +237,9 @@ namespace RobotInterface
             }
             toggle = !toggle;
         }
+
+
+
 
 
         private void Envoi()
