@@ -12,21 +12,7 @@ void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, unsigned ch
 void DecodeMessage(unsigned char c);
 unsigned char CalculateChecksum(int msgFunction, int msgPayloadLength, unsigned char msgPayload[]);
 
-enum StateReception
-    {
-            Waiting,
-            FunctionMSB,
-            FunctionLSB,
-            PayloadLengthMSB,
-            PayloadLengthLSB,
-            Payload,
-            CheckSum
-    };
-        StateReception rcvState = StateReception.Waiting;
-        int msgDecodedFunction = 0;
-        int msgDecodedPayloadLength = 0;
-        unsigned char msgDecodedPayload[];
-        int msgDecodedPayloadIndex = 0;
+
 
 #ifdef	__cplusplus
 }
