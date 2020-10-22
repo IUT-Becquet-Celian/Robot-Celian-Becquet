@@ -8,11 +8,12 @@ unsigned char CalculateChecksum(int msgFunction, int msgPayloadLength, unsigned 
         {
             unsigned char checksum = 0;
             checksum ^= 0xFE;
-            checksum ^= unsigned char(msgFunction >> 8);
-            checksum ^= unsigned char(msgFunction >> 0);
-            checksum ^= unsigned char(msgPayloadLength >> 8);
-            checksum ^= unsigned char(msgPayloadLength >> 0);
-            for (int i = 0; i<msgPayloadLength; i++)
+            checksum ^= (unsigned char)(msgFunction >> 8);
+            checksum ^= (unsigned char)(msgFunction >> 0);
+            checksum ^= (unsigned char)(msgPayloadLength >> 8);
+            checksum ^= (unsigned char)(msgPayloadLength >> 0);
+            int i;
+            for (i=0; i<msgPayloadLength; i++)
             {
                 checksum ^= msgPayload[i];
             }
@@ -23,6 +24,7 @@ unsigned char CalculateChecksum(int msgFunction, int msgPayloadLength, unsigned 
 void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, unsigned char msgPayload[])
         {
 
+            int j;
             unsigned char trame[6+msgPayloadLength]; //= new unsigned char[6+msgPayloadLength];
 
             int pos = 0;
@@ -35,7 +37,7 @@ void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, unsigned ch
             trame[pos++] = (unsigned char)(msgPayloadLength >> 8);
             trame[pos++] = (unsigned char)(msgPayloadLength >> 0);
 
-            for(int j=0 ; j<msgPayloadLength; j++)
+            for(j=0 ; j<msgPayloadLength; j++)
             {
                 trame[pos++] = msgPayload[j];
             }

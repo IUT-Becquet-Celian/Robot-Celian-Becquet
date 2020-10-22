@@ -21,8 +21,8 @@ enum StateReception
             PayloadLengthLSB,
             Payload,
             CheckSum
-    }
-        /*StateReception*/ rcvState = StateReception.Waiting;
+    };
+        StateReception rcvState = StateReception.Waiting;
         int msgDecodedFunction = 0;
         int msgDecodedPayloadLength = 0;
         unsigned char msgDecodedPayload[];
