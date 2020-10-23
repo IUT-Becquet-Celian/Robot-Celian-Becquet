@@ -11,9 +11,16 @@ namespace RobotInterface
         public double distanceTelemetreGauche;
         public double distanceTelemetreDroit;
         public double distanceTelemetreCentre;
+        public double vitesseMoteurGauche;
+        public double vitesseMoteurDroit;
         public string receivedMessage;
         public Queue<byte> byteListReceived = new Queue<byte>();
-        
+
+        public bool flagNewIrData = false;
+        public bool flagNewVitesseData = false;
+        public bool flagNewReceptionData = false;
+
+
 
         public Robot()
         {

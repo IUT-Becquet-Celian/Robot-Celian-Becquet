@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <xc.h>
 #include <libpic30.h>
-#include "proto.h"
+#include "UART_Protocol.h.h"
 
 enum StateReception {
     Waiting,
