@@ -13,11 +13,12 @@
 #include "UART.h"
 #include "CB_TX1.h"
 #include "CB_RX1.h"
+#include "UART_Protocol.h"
 
 
 int main(void) {
     /***************************************************************************************************/
-    //Initialisation de l?oscillateur
+    //Initialisation de l'oscillateur
     /****************************************************************************************************/
     InitOscillator();
     robotState.vitesseGaucheCommandeCourante=0;
@@ -62,12 +63,15 @@ int main(void) {
         }     
         
         int i;
+        unsigned char payload[] = {'B','o','o','j','o','u', 'r'} ;
+        UartEncodeAndSendMessage(0x0080, 7, payload);
+        
         for(i=0; i<CB_RX1_GetDataSize(); i++)
         {
             unsigned char c = CB_RX1_Get();
             SendMessage(&c,1);
         }
-        __delay32(10000);
+        __delay32(40000000);
 //        SendMessage((unsigned char *)"Bonjour", 7);     
 ////        SendMessageDirect((unsigned char *)"Bonjour", 7);     
 //        __delay32(4000000); 

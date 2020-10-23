@@ -9,9 +9,9 @@
 #define	PROTO_H
 
 void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, unsigned char msgPayload[]);
-void DecodeMessage(unsigned char c);
-unsigned char CalculateChecksum(int msgFunction, int msgPayloadLength, unsigned char msgPayload[]);
-
+void UartDecodeMessage(unsigned char c);
+unsigned char UartCalculateChecksum(int msgFunction, int msgPayloadLength, unsigned char msgPayload[]);
+void ProcessDecodedMessage(int msgFunction, int msgPayloadLength, unsigned char* msgPayload);
 
 
 #ifdef	__cplusplus

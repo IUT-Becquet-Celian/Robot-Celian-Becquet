@@ -2,9 +2,10 @@
 #include <stdlib.h>
 #include <xc.h>
 #include <libpic30.h>
-#include "UART_Protocol.h.h"
+#include "UART_Protocol.h"
+#include "CB_TX1.h"
 
-enum StateReception {
+/*enum StateReception {
     Waiting,
     FunctionMSB,
     FunctionLSB,
@@ -14,13 +15,10 @@ enum StateReception {
     CheckSum
 };
 
-StateReception rcvState = StateReception.Waiting;
-int msgDecodedFunction = 0;
-int msgDecodedPayloadLength = 0;
-unsigned char msgDecodedPayload[];
-int msgDecodedPayloadIndex = 0;
+StateReception rcvState = StateReception.Waiting;*/
 
-unsigned char CalculateChecksum(int msgFunction, int msgPayloadLength, unsigned char msgPayload[]) {
+
+unsigned char UartCalculateChecksum(int msgFunction, int msgPayloadLength, unsigned char* msgPayload) {
     unsigned char checksum = 0;
     checksum ^= 0xFE;
     checksum ^= (unsigned char) (msgFunction >> 8);
@@ -34,7 +32,7 @@ unsigned char CalculateChecksum(int msgFunction, int msgPayloadLength, unsigned 
     return checksum;
 }
 
-void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, unsigned char msgPayload[]) {
+void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, unsigned char* msgPayload) {
 
     int j;
     unsigned char trame[6 + msgPayloadLength]; //= new unsigned char[6+msgPayloadLength];
@@ -53,12 +51,20 @@ void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, unsigned ch
         trame[pos++] = msgPayload[j];
     }
 
-    trame[pos++] = (unsigned char) (CalculateChecksum(msgFunction, msgPayloadLength, msgPayload));
+    trame[pos++] = (unsigned char) (UartCalculateChecksum(msgFunction, msgPayloadLength, msgPayload));
+    SendMessage(trame,pos);
     //serialPort1.Write(trame, 0, pos);
 
 }
 
-void DecodeMessage(unsigned char c) {
+int msgDecodedFunction = 0;
+int msgDecodedPayloadLength = 0;
+unsigned char msgDecodedPayload[128];
+int msgDecodedPayloadIndex = 0;
+
+void UartDecodeMessage(unsigned char c) {
+    //Fonction prenant en entree un octet et servant a reconstituer les trames
+    /*
     switch (rcvState) {
         case StateReception.Waiting:
             if (c == 0xFE)
@@ -107,5 +113,37 @@ void DecodeMessage(unsigned char c) {
         default:
             rcvState = StateReception.Waiting;
             break;
-    }
+    }*/
 }
+
+void ProcessDecodedMessage( int msgFunction, int msgPayloadLength, unsigned char* msgPayload)
+    //Fonction appelee apres le decodage pour executer l'action correspondant au message recu
+        {
+    /*
+            switch (msgFunction)
+            {                
+                case 0x30: // IR data
+                    flagNewIrData = true;
+                    distanceTelemetreGauche = msgPayload[0];
+                    distanceTelemetreCentre = msgPayload[1];
+                    distanceTelemetreDroit = msgPayload[2];
+                    break;
+                    
+                case 0x40:
+                    robot.flagNewVitesseData = true;
+                    robot.vitesseMoteurGauche= msgPayload[0];
+                    robot.vitesseMoteurDroit = msgPayload[1];
+                   break;
+
+                case 0x80: // Text transmission
+                    robot.flagNewReceptionData = true;
+                    robot.receivedMessage = System.Text.Encoding.UTF8.GetString(msgPayload);
+                    break;
+
+                default: // Unknow command
+                    break;
+            }
+      */
+
+        }
+
