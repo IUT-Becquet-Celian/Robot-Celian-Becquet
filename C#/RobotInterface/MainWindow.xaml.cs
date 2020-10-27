@@ -349,15 +349,15 @@ namespace RobotInterface
         }
         private void Test()
         {
-            byte[] array = new byte[] { 0xFF,20,30}/*Encoding.ASCII.GetBytes("Bonjour")*/;
-            UartEncodeAndSendMessage(0x0030, array.Length, array);
-            //processDecodedMessage(0x0030, array.Length, array);
+            //byte[] array = new byte[] { 0xFF,20,30}/*Encoding.ASCII.GetBytes("Bonjour")*/;
+            //UartEncodeAndSendMessage(0x0030, array.Length, array);
+            
             byte[] array1 = Encoding.ASCII.GetBytes("Bonjour");
             UartEncodeAndSendMessage(0x0080, array1.Length, array1);
-            //processDecodedMessage(0x0080, array1.Length, array1);
-            byte[] array2 = new byte[] { 50, 70 }/*Encoding.ASCII.GetBytes("Bonjour")*/;
-            UartEncodeAndSendMessage(0x0040, array2.Length, array2);
-            //processDecodedMessage(0x0040, array2.Length, array2);
+            
+            //byte[] array2 = new byte[] { 50, 70 }/*Encoding.ASCII.GetBytes("Bonjour")*/;
+            //UartEncodeAndSendMessage(0x0040, array2.Length, array2);
+            
 
             //Label_IRGauche.Content = "IR Gauche : " + robot.distanceTelemetreGauche + "cm";
             //Label_IRCentre.Content = "IR Centre : " + robot.distanceTelemetreCentre + "cm";
