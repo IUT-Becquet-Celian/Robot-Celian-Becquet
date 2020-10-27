@@ -264,7 +264,6 @@ namespace RobotInterface
                     robot.distanceTelemetreGauche = msgPayload[0];
                     robot.distanceTelemetreCentre = msgPayload[1];
                     robot.distanceTelemetreDroit = msgPayload[2];
-                    
                     break;
 
                 case 0x50: //numero etape robot + instant courant en ms
@@ -281,6 +280,14 @@ namespace RobotInterface
                 case 0x80: // Text transmission
                     robot.flagNewReceptionData = true;
                     robot.receivedMessage = System.Text.Encoding.UTF8.GetString(msgPayload);
+                    break;
+
+                case 0x51: //SetRobotState
+
+                    break;
+
+                case 0x52: //SetRobotAutoControlState
+                    
                     break;
 
                 default: // Unknow command
@@ -333,10 +340,6 @@ namespace RobotInterface
             toggle = !toggle;
         }
 
-
-
-
-
         private void Envoi()
         {
             serialPort1.WriteLine(textBoxEmission.Text);
@@ -365,10 +368,24 @@ namespace RobotInterface
             //Label_VitesseGauche.Content = "Vitesse Gauche : " + 10 + " %";
             //Label_VitesseDroit.Content = "Vitesse Droit : " + 10 + " %";
 
-            CheckBox_Led3.IsChecked = !CheckBox_Led3.IsChecked;
+            
         }
 
         private void checkBox_Checked(object sender, RoutedEventArgs e)
+        {
+            if ((bool)(CheckBox_Auto.IsChecked))
+            {
+                byte[] Auto = new byte[] {1};
+                UartEncodeAndSendMessage(0x0051, Auto.Length, Auto);
+            }
+            if ((bool)(CheckBox_Manuel.IsChecked))
+            {
+                byte[] Manuel = new byte[] {0};
+                UartEncodeAndSendMessage(0x0051, Manuel.Length, Manuel);
+            }
+        }
+
+        private void comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
