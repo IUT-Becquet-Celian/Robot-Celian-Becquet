@@ -14,12 +14,15 @@ namespace RobotInterface
         public double vitesseMoteurGauche;
         public double vitesseMoteurDroit;
         public string receivedMessage;
+        public double receivedEtape;
+        public double receivedInstantCourant;
         public Queue<byte> byteListReceived = new Queue<byte>();
 
         public bool flagNewIrData = false;
         public bool flagNewVitesseData = false;
         public bool flagNewReceptionData = false;
-
+        public bool flagNewEtapeData = false;
+        public bool flagChecksum = false;
 
 
         public Robot()

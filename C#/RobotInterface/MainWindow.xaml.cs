@@ -58,6 +58,39 @@ namespace RobotInterface
             Payload,
             CheckSum
         }
+        public enum StateRobot
+        {
+            STATE_ATTENTE = 0,
+            STATE_ATTENTE_EN_COURS = 1,
+            STATE_AVANCE = 2,
+            STATE_AVANCE_EN_COURS = 3,
+            STATE_TOURNE_GAUCHE = 4,
+            STATE_TOURNE_GAUCHE_EN_COURS = 5,
+
+            STATE_TOURNE_DROITE = 6,
+            STATE_TOURNE_DROITE_EN_COURS = 7,
+
+            STATE_TOURNE_SUR_PLACE_GAUCHE = 8,
+            STATE_TOURNE_SUR_PLACE_GAUCHE_EN_COURS = 9,
+
+            STATE_TOURNE_SUR_PLACE_DROITE = 10,
+            STATE_TOURNE_SUR_PLACE_DROITE_EN_COURS = 11,
+
+            STATE_TOURNE_DROITE_FAIBLE = 12,
+            STATE_TOURNE_DROITE_FAIBLE_EN_COURS = 13,
+
+            STATE_TOURNE_GAUCHE_FAIBLE = 14,
+            STATE_TOURNE_GAUCHE_FAIBLE_EN_COURS = 15,
+
+            STATE_ARRET = 16,
+            STATE_ARRET_EN_COURS = 17,
+
+            STATE_RECULE = 18,
+            STATE_RECULE_EN_COURS = 19,
+
+            STATE_AVANCE_FOND = 20,
+            STATE_AVANCE_FOND_EN_COURS = 21,
+        }
 
         bool messageDecode = false;
 
@@ -81,8 +114,24 @@ namespace RobotInterface
             if (robot.flagNewReceptionData)
             {
                 textBoxReception.Text += "Message reçu : " + robot.receivedMessage + "\n";
+                textBoxReception.ScrollToEnd();
                 robot.flagNewReceptionData = false;
             }
+            if (robot.flagNewEtapeData)
+            {
+                textBoxReception.Text += "Robot state : " + (StateRobot)robot.receivedEtape + "\n" + "Instant courant : " + robot.receivedInstantCourant + " ms\n" ;
+                textBoxReception.ScrollToEnd();
+                robot.flagNewEtapeData = false;
+            }
+            if (robot.flagChecksum)
+            {
+                textBoxInfo.Text += "Checksum pas valide \n";
+                textBoxReception.ScrollToEnd();
+                robot.flagChecksum = false;
+            }
+           
+
+
         }
 
         private void SerialPort1_DataReceived(object sender, DataReceivedArgs e)
@@ -194,7 +243,8 @@ namespace RobotInterface
                     }
                     else
                     {
-                        textBoxInfo.Text += "Checksum pas valide \n";
+                        robot.flagChecksum = true;
+                        
                     }
                     rcvState = StateReception.Waiting;
                     break;
@@ -215,6 +265,12 @@ namespace RobotInterface
                     robot.distanceTelemetreCentre = msgPayload[1];
                     robot.distanceTelemetreDroit = msgPayload[2];
                     
+                    break;
+
+                case 0x50: //numero etape robot + instant courant en ms
+                    robot.flagNewEtapeData = true;
+                    robot.receivedEtape = msgPayload[0];
+                    robot.receivedInstantCourant = (((int)msgPayload[1]) << 24) + (((int)msgPayload[2]) << 16) + (((int)msgPayload[3]) << 8) + (((int)msgPayload[4]) << 0);
                     break;
                 case 0x40:
                     robot.flagNewVitesseData = true;

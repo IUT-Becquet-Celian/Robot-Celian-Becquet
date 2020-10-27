@@ -60,18 +60,28 @@ int main(void) {
             robotState.distanceTelemetreInterieurGauche = 34/volts-5;
             volts = ((float) result[3]) * 3.3 / 4096 * 3.2 ;
             robotState.distanceTelemetreExterieurGauche = 34/volts-5;
-        }     
-        
-        int i;
-        unsigned char payload[] = {'B','o','o','j','o','u', 'r'} ;
-        UartEncodeAndSendMessage(0x0080, 7, payload);
+            int i;
+        unsigned char payload[] = {robotState.distanceTelemetreInterieurGauche, robotState.distanceTelemetreCentre, robotState.distanceTelemetreInterieurDroit } ;
+        UartEncodeAndSendMessage(0x0030, 3, payload);
         
         for(i=0; i<CB_RX1_GetDataSize(); i++)
         {
             unsigned char c = CB_RX1_Get();
             SendMessage(&c,1);
         }
-        __delay32(40000000);
+            
+        }     
+        
+//        int i;
+//        unsigned char payload[] = {3,0x00,0x00,0x00,0x01} ;
+//        UartEncodeAndSendMessage(0x0050, 5, payload);
+//        
+//        for(i=0; i<CB_RX1_GetDataSize(); i++)
+//        {
+//            unsigned char c = CB_RX1_Get();
+//            SendMessage(&c,1);
+//        }
+//        __delay32(40000000);
 //        SendMessage((unsigned char *)"Bonjour", 7);     
 ////        SendMessageDirect((unsigned char *)"Bonjour", 7);     
 //        __delay32(4000000); 
@@ -323,6 +333,11 @@ void SetNextRobotStateInAutomaticMode() {
     
     //Si l?on n?est pas dans la transition de l?étape en cours
     if (nextStateRobot != stateRobot - 1)
+    {
         stateRobot = nextStateRobot;
+        
+        unsigned char payload[] = {stateRobot, (unsigned char)(timestamp>>24),(unsigned char)(timestamp>>16),(unsigned char)(timestamp>>8),(unsigned char)(timestamp>>0)} ;
+        UartEncodeAndSendMessage(0x0050, 5, payload);
+    }
 }
 
