@@ -8,6 +8,9 @@ typedef struct robotStateBITS {
 
         struct {
             unsigned char taskEnCours;
+            unsigned char stateRobot;  
+            unsigned char isInAutomaticMode;
+            
             float distanceTelemetreExterieurDroit;
             float distanceTelemetreInterieurDroit;
             float distanceTelemetreCentre;

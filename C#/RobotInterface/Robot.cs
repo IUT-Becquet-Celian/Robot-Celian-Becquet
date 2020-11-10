@@ -23,6 +23,7 @@ namespace RobotInterface
         public bool flagNewReceptionData = false;
         public bool flagNewEtapeData = false;
         public bool flagChecksum = false;
+        public bool autoControlActivated = true;
 
 
         public Robot()

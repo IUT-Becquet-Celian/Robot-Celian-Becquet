@@ -22,6 +22,7 @@ int main(void) {
     InitOscillator();
     robotState.vitesseGaucheCommandeCourante = 0;
     robotState.vitesseDroiteCommandeCourante = 0;
+    robotState.isInAutomaticMode = AUTO;
     /****************************************************************************************************/
     // Configuration des entrées sorties
     /****************************************************************************************************/
@@ -36,8 +37,6 @@ int main(void) {
     InitADC1();
     InitUART();
     // int ADCValue0, ADCValue1, ADCValue2;
-
-
 
     /****************************************************************************************************/
     // Boucle Principale
@@ -86,53 +85,56 @@ int main(void) {
     }
 }
 
-unsigned char stateRobot;
+
 
 void OperatingSystemLoop(void) {
     if (JACK) {
-        switch (stateRobot) {
+        switch (robotState.stateRobot) {
             case STATE_ATTENTE:
                 timestamp = 0;
                 PWMSetSpeedConsigne(0, MOTEUR_DROIT);
                 PWMSetSpeedConsigne(0, MOTEUR_GAUCHE);
-                stateRobot = STATE_ATTENTE_EN_COURS;
+                robotState.stateRobot = STATE_ATTENTE_EN_COURS;
 
             case STATE_ATTENTE_EN_COURS:
                 if (timestamp > 1000)
-                    stateRobot = STATE_AVANCE;
+                    robotState.stateRobot = STATE_AVANCE;
                 break;
 
             case STATE_AVANCE:
                 PWMSetSpeedConsigne(30, MOTEUR_DROIT);
                 PWMSetSpeedConsigne(30, MOTEUR_GAUCHE);
-                stateRobot = STATE_AVANCE_EN_COURS;
+                robotState.stateRobot = STATE_AVANCE_EN_COURS;
                 LED_BLANCHE = 0;
                 LED_BLEUE = 0;
                 break;
             case STATE_AVANCE_EN_COURS:
-                SetNextRobotStateInAutomaticMode();
+                if(robotState.isInAutomaticMode==AUTO)
+                    SetNextRobotStateInAutomaticMode();
                 break;
 
             case STATE_AVANCE_FOND:
                 PWMSetSpeedConsigne(40, MOTEUR_DROIT);
                 PWMSetSpeedConsigne(40, MOTEUR_GAUCHE);
-                stateRobot = STATE_AVANCE_FOND_EN_COURS;
+                robotState.stateRobot = STATE_AVANCE_FOND_EN_COURS;
                 LED_BLANCHE = 0;
                 LED_BLEUE = 1;
                 break;
             case STATE_AVANCE_FOND_EN_COURS:
-                SetNextRobotStateInAutomaticMode();
+                if(robotState.isInAutomaticMode==AUTO)
+                    SetNextRobotStateInAutomaticMode();
                 break;
 
             case STATE_TOURNE_GAUCHE:
                 PWMSetSpeedConsigne(20, MOTEUR_DROIT);
                 PWMSetSpeedConsigne(0, MOTEUR_GAUCHE);
-                stateRobot = STATE_TOURNE_GAUCHE_EN_COURS;
+                robotState.stateRobot = STATE_TOURNE_GAUCHE_EN_COURS;
                 LED_BLANCHE = 0;
                 LED_BLEUE = 0;
                 break;
             case STATE_TOURNE_GAUCHE_EN_COURS:
-                SetNextRobotStateInAutomaticMode();
+                if(robotState.isInAutomaticMode==AUTO)
+                    SetNextRobotStateInAutomaticMode();
                 break;
 
             case STATE_TOURNE_DROITE:
@@ -140,23 +142,25 @@ void OperatingSystemLoop(void) {
                 PWMSetSpeedConsigne(20, MOTEUR_GAUCHE);
                 LED_BLANCHE = 0;
                 LED_BLEUE = 0;
-                stateRobot = STATE_TOURNE_DROITE_EN_COURS;
+                robotState.stateRobot = STATE_TOURNE_DROITE_EN_COURS;
                 break;
 
             case STATE_TOURNE_DROITE_EN_COURS:
-                SetNextRobotStateInAutomaticMode();
+                if(robotState.isInAutomaticMode==AUTO)
+                    SetNextRobotStateInAutomaticMode();
                 break;
 
             case STATE_TOURNE_DROITE_FAIBLE:
                 PWMSetSpeedConsigne(-10, MOTEUR_DROIT);
                 PWMSetSpeedConsigne(20, MOTEUR_GAUCHE);
-                stateRobot = STATE_TOURNE_DROITE_FAIBLE_EN_COURS;
+                robotState.stateRobot = STATE_TOURNE_DROITE_FAIBLE_EN_COURS;
                 LED_BLANCHE = 0;
                 LED_BLEUE = 0;
                 break;
 
             case STATE_TOURNE_DROITE_FAIBLE_EN_COURS:
-                SetNextRobotStateInAutomaticMode();
+                if(robotState.isInAutomaticMode==AUTO)
+                    SetNextRobotStateInAutomaticMode();
                 break;
 
             case STATE_TOURNE_GAUCHE_FAIBLE:
@@ -164,44 +168,47 @@ void OperatingSystemLoop(void) {
                 PWMSetSpeedConsigne(-10, MOTEUR_GAUCHE);
                 LED_BLANCHE = 0;
                 LED_BLEUE = 0;
-                stateRobot = STATE_TOURNE_DROITE_FAIBLE_EN_COURS;
+                robotState.stateRobot = STATE_TOURNE_DROITE_FAIBLE_EN_COURS;
                 break;
 
             case STATE_TOURNE_GAUCHE_FAIBLE_EN_COURS:
-                SetNextRobotStateInAutomaticMode();
+                if(robotState.isInAutomaticMode==AUTO)
+                    SetNextRobotStateInAutomaticMode();
                 break;
 
             case STATE_TOURNE_SUR_PLACE_GAUCHE:
                 PWMSetSpeedConsigne(20, MOTEUR_DROIT);
                 PWMSetSpeedConsigne(-20, MOTEUR_GAUCHE);
-                stateRobot = STATE_TOURNE_SUR_PLACE_GAUCHE_EN_COURS;
+                robotState.stateRobot = STATE_TOURNE_SUR_PLACE_GAUCHE_EN_COURS;
                 LED_BLANCHE = 0;
                 LED_BLEUE = 0;
                 break;
             case STATE_TOURNE_SUR_PLACE_GAUCHE_EN_COURS:
-                SetNextRobotStateInAutomaticMode();
+                if(robotState.isInAutomaticMode==AUTO)
+                    SetNextRobotStateInAutomaticMode();
                 break;
 
             case STATE_TOURNE_SUR_PLACE_DROITE:
                 PWMSetSpeedConsigne(-20, MOTEUR_DROIT);
                 PWMSetSpeedConsigne(20, MOTEUR_GAUCHE);
-                stateRobot = STATE_TOURNE_SUR_PLACE_DROITE_EN_COURS;
+                robotState.stateRobot = STATE_TOURNE_SUR_PLACE_DROITE_EN_COURS;
                 LED_BLANCHE = 0;
                 LED_BLEUE = 0;
                 break;
             case STATE_TOURNE_SUR_PLACE_DROITE_EN_COURS:
-                SetNextRobotStateInAutomaticMode();
+                if(robotState.isInAutomaticMode==AUTO)
+                    SetNextRobotStateInAutomaticMode();
                 break;
 
             default:
-                stateRobot = STATE_ATTENTE;
+                robotState.stateRobot = STATE_ATTENTE;
                 break;
         }
     } else {
         timestamp = 0;
         PWMSetSpeedConsigne(0, MOTEUR_DROIT);
         PWMSetSpeedConsigne(0, MOTEUR_GAUCHE);
-        stateRobot = STATE_AVANCE;
+        robotState.stateRobot = STATE_AVANCE;
     }
 
 }
@@ -327,10 +334,10 @@ void SetNextRobotStateInAutomaticMode() {
 
 
     //Si l?on n?est pas dans la transition de l?étape en cours
-    if (nextStateRobot != stateRobot - 1) {
-        stateRobot = nextStateRobot;
+    if (nextStateRobot != robotState.stateRobot - 1) {
+        robotState.stateRobot = nextStateRobot;
 
-        unsigned char payload[] = {stateRobot, (unsigned char) (timestamp >> 24), (unsigned char) (timestamp >> 16), (unsigned char) (timestamp >> 8), (unsigned char) (timestamp >> 0)};
+        unsigned char payload[] = {robotState.stateRobot, (unsigned char) (timestamp >> 24), (unsigned char) (timestamp >> 16), (unsigned char) (timestamp >> 8), (unsigned char) (timestamp >> 0)};
         UartEncodeAndSendMessage(0x0050, 5, payload);
     }
 }

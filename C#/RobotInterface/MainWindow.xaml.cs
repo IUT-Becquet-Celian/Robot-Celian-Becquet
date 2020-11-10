@@ -14,6 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MouseKeyboardActivityMonitor.WinApi;
+using MouseKeyboardActivityMonitor;
+
 
 namespace RobotInterface
 {
@@ -36,6 +39,7 @@ namespace RobotInterface
         int msgDecodedPayloadIndex = 0;
         //fin de declarations a propos de DecodeMessage
 
+        private readonly KeyboardHookListener m_KeyboardHookManager;
 
         public MainWindow()
         {
@@ -47,7 +51,40 @@ namespace RobotInterface
             timerAffichage.Tick += TimerAffichage_Tick;
             timerAffichage.Interval = new TimeSpan(0, 0, 0, 0, 100);
             timerAffichage.Start();
+
+            m_KeyboardHookManager = new KeyboardHookListener(new GlobalHooker());
+            m_KeyboardHookManager.Enabled = true;
+            m_KeyboardHookManager.KeyDown += HookManager_KeyDown;
         }
+
+        private void HookManager_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (robot.autoControlActivated == false)
+            {
+                switch (e.KeyCode)
+                {
+                    case Keys.Left:
+                        UartEncodeAndSendMessage(0x0051, 1, new byte[] { (byte)StateRobot.STATE_TOURNE_SUR_PLACE_GAUCHE });
+                        break;
+                    case Keys.Right:
+                        UartEncodeAndSendMessage(0x0051, 1, new byte[] { (byte)StateRobot.STATE_TOURNE_SUR_PLACE_DROITE });
+                        break;
+                    case Keys.Up:
+                        UartEncodeAndSendMessage(0x0051, 1, new byte[] { (byte)StateRobot.STATE_AVANCE });
+                        break;
+                    case Keys.Down:
+                        UartEncodeAndSendMessage(0x0051, 1, new byte[] { (byte)StateRobot.STATE_ARRET });
+                        break;
+                    case Keys.PageDown:
+                        UartEncodeAndSendMessage(0x0051, 1, new byte[] { (byte)StateRobot.STATE_RECULE });
+                        break;
+
+                }
+
+            }
+        }
+            
+
         public enum StateReception
         {
             Waiting,
@@ -372,17 +409,17 @@ namespace RobotInterface
         }
 
         private void checkBox_Checked(object sender, RoutedEventArgs e)
+        {         
+            byte[] Auto = new byte[] { 1 };
+            UartEncodeAndSendMessage(0x0052, Auto.Length, Auto);
+            robot.autoControlActivated = true;
+        }
+
+        private void checkBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            if ((bool)(CheckBox_Auto.IsChecked))
-            {
-                byte[] Auto = new byte[] {1};
-                UartEncodeAndSendMessage(0x0051, Auto.Length, Auto);
-            }
-            if ((bool)(CheckBox_Manuel.IsChecked))
-            {
-                byte[] Manuel = new byte[] {0};
-                UartEncodeAndSendMessage(0x0051, Manuel.Length, Manuel);
-            }
+            byte[] Manuel = new byte[] { 0 };
+            UartEncodeAndSendMessage(0x0052, Manuel.Length, Manuel);
+            robot.autoControlActivated = false;
         }
 
         private void comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -390,4 +427,6 @@ namespace RobotInterface
 
         }
     }
+   
+
 }

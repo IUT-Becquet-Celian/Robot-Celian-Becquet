@@ -4,6 +4,8 @@
 #include <libpic30.h>
 #include "UART_Protocol.h"
 #include "CB_TX1.h"
+#include "main.h"
+#include "robot.h"
 
 unsigned char UartCalculateChecksum(int msgFunction, int msgPayloadLength, unsigned char* msgPayload) {
     unsigned char checksum = 0;
@@ -90,7 +92,7 @@ void UartDecodeMessage(unsigned char c) {
 
         case PayloadLengthLSB:
             msgDecodedPayloadLength += (int) (c << 0);
-            //            msgDecodedPayload[msgDecodedPayloadLength];
+            msgDecodedPayloadIndex = 0;
             rcvState = Payload;
             break;
 
@@ -106,10 +108,11 @@ void UartDecodeMessage(unsigned char c) {
         case CheckSum:
             receivedChecksum = c;
             calculatedChecksum = UartCalculateChecksum(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload);
-            //            if(calculatedChecksum == receivedChecksum)
-            //            {
-            //                UartProcessDecodedMessage(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload);
-            //            }
+            if(calculatedChecksum == receivedChecksum)
+            {
+                UartProcessDecodedMessage(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload);
+            }
+          
             rcvState = Waiting;
             break;
         default:
@@ -144,11 +147,11 @@ void UartProcessDecodedMessage(int msgFunction, int msgPayloadLength, unsigned c
 //                    break;
                     
                 case SET_ROBOT_STATE:
-//                    SetRobotState(msgPayload[0]);
+                    SetRobotState(msgPayload[0]);
                     break;
             
                 case SET_ROBOT_MANUAL_CONTROL:
-//                    SetRobotAutoControlState(msgPayload[0]);
+                    SetRobotAutoControlState(msgPayload[0]);
                     break;
 
                 default: // Unknow command
@@ -156,5 +159,15 @@ void UartProcessDecodedMessage(int msgFunction, int msgPayloadLength, unsigned c
             }
      
 
+}
+
+void SetRobotState (unsigned char state)
+{
+    robotState.stateRobot = state;   
+}
+
+void SetRobotAutoControlState (unsigned char state)
+{
+    robotState.isInAutomaticMode = state;
 }
 

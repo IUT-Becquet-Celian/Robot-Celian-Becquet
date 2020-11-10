@@ -13,9 +13,10 @@
 
 void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, unsigned char msgPayload[]);
 void UartDecodeMessage(unsigned char c);
+void UartProcessDecodedMessage(int msgFunction, int msgPayloadLength, unsigned char* msgPayload);
 unsigned char UartCalculateChecksum(int msgFunction, int msgPayloadLength, unsigned char msgPayload[]);
-void ProcessDecodedMessage(int msgFunction, int msgPayloadLength, unsigned char* msgPayload);
-
+void SetRobotState (unsigned char state);
+void SetRobotAutoControlState (unsigned char state);
 
 #ifdef	__cplusplus
 }
