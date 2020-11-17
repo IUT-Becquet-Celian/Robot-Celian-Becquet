@@ -31,7 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MouseKeyboardActivityMonitor">
+    <Reference Include="MouseKeyboardActivityMonitor, Version=3.0.1.17650, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\RobotInterface\MouseKeyboardActivityMonitor.dll</HintPath>
     </Reference>
     <Reference Include="System" />

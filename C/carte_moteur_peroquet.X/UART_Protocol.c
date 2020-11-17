@@ -5,7 +5,9 @@
 #include "UART_Protocol.h"
 #include "CB_TX1.h"
 #include "main.h"
+#include "IO.h"
 #include "robot.h"
+
 
 unsigned char UartCalculateChecksum(int msgFunction, int msgPayloadLength, unsigned char* msgPayload) {
     unsigned char checksum = 0;
@@ -169,5 +171,7 @@ void SetRobotState (unsigned char state)
 void SetRobotAutoControlState (unsigned char state)
 {
     robotState.isInAutomaticMode = state;
+    if (robotState.isInAutomaticMode == AUTO)LED_BLEUE = 1;
+    else LED_BLEUE = 0;
 }
 

@@ -57,25 +57,25 @@ namespace RobotInterface
             m_KeyboardHookManager.KeyDown += HookManager_KeyDown;
         }
 
-        private void HookManager_KeyDown(object sender, KeyEventArgs e)
+        private void HookManager_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
             if (robot.autoControlActivated == false)
             {
                 switch (e.KeyCode)
                 {
-                    case Keys.Left:
+                    case System.Windows.Forms.Keys.Left:
                         UartEncodeAndSendMessage(0x0051, 1, new byte[] { (byte)StateRobot.STATE_TOURNE_SUR_PLACE_GAUCHE });
                         break;
-                    case Keys.Right:
+                    case System.Windows.Forms.Keys.Right:
                         UartEncodeAndSendMessage(0x0051, 1, new byte[] { (byte)StateRobot.STATE_TOURNE_SUR_PLACE_DROITE });
                         break;
-                    case Keys.Up:
+                    case System.Windows.Forms.Keys.Up:
                         UartEncodeAndSendMessage(0x0051, 1, new byte[] { (byte)StateRobot.STATE_AVANCE });
                         break;
-                    case Keys.Down:
+                    case System.Windows.Forms.Keys.Down:
                         UartEncodeAndSendMessage(0x0051, 1, new byte[] { (byte)StateRobot.STATE_ARRET });
                         break;
-                    case Keys.PageDown:
+                    case System.Windows.Forms.Keys.PageDown:
                         UartEncodeAndSendMessage(0x0051, 1, new byte[] { (byte)StateRobot.STATE_RECULE });
                         break;
 

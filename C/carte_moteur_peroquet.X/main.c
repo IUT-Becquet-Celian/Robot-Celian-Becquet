@@ -97,7 +97,7 @@ void OperatingSystemLoop(void) {
                 robotState.stateRobot = STATE_ATTENTE_EN_COURS;
 
             case STATE_ATTENTE_EN_COURS:
-                if (timestamp > 1000)
+                if (timestamp > 1000 && robotState.isInAutomaticMode==AUTO)
                     robotState.stateRobot = STATE_AVANCE;
                 break;
 
