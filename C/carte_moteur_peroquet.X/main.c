@@ -36,6 +36,8 @@ int main(void) {
     InitTimer4();
     InitADC1();
     InitUART();
+    InitQEI1();
+    InitQEI2();
     // int ADCValue0, ADCValue1, ADCValue2;
 
     /****************************************************************************************************/
