@@ -5,6 +5,7 @@
 #include "Robot.h"
 #include "ADC.h"
 #include "main.h"
+#include "Utilities.h"
 
 unsigned char toggle = 0 ;
 unsigned long timestamp;
@@ -65,12 +66,18 @@ void InitTimer1(void) {
     T1CONbits.TON = 1; // Enable Timer
 }
 
-//Interruption du timer 1
+int subcounter = 0;
 
+//Interruption du timer 1
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     IFS0bits.T1IF = 0;
     ADC1StartConversionSequence();
     PWMUpdateSpeed();
+    if(subcounter++%10==0)
+    {
+        SendPositionData();
+        subcounter=0;
+    }
 }
 
 void SetFreqTimer1(float freq) {

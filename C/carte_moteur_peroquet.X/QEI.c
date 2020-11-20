@@ -1,6 +1,11 @@
 #include "QEI.h"
 #include "Robot.h"
+#include "Utilities.h"
 #include <xc.h>
+#include <math.h>
+#define DISTROUES 281.2
+
+ 
 
 void InitQEI1()
 {
@@ -28,17 +33,16 @@ void QEIUpdateData()
     long QEIRawValue = POS1CNTL;
     QEI1RawValue += ((long)POS1HDL<<16);
 
-    long QEIRawValue = POS2CNTL;
+    QEIRawValue = POS2CNTL;
     QEI2RawValue += ((long)POS2HDL<<16);
 
     //Conversion en mm (r\'egl\'e pour la taille des roues codeuses)
-    QeiDroitPosition = 0.01620*QEI1RawValue;
-    QeiGauchePosition = -0.01620*QEI1RawValue;
+    QeiDroitPosition = (0.01629854/1000)*QEI1RawValue;
+    QeiGauchePosition = (-0.01629854/1000)*QEI2RawValue;
     
     //Calcul des deltas de position 
     delta_d = QeiDroitPosition - QeiDroitPosition_T_1;
     delta_g = QeiGauchePosition - QeiGauchePosition_T_1;
-    
     //delta_theta = atan ((delta_d - delta_g) / DISTROUES);
     delta_theta = atan ((delta_d - delta_g) / DISTROUES);
     dx = (delta_d + delta_g) /2;
@@ -53,14 +57,14 @@ void QEIUpdateData()
     //Mise à jour du positionnement terrain à t-1
     robotState.xPosFromOdometry_1 = robotState.xPosFromOdometry;
     robotState.yPosFromOdometry_1 = robotState.yPosFromOdometry;
-    robotState.angleRadianFromOdometry = robotState.angleRadianFromOdometry;
+    robotState.angleRadianFromOdometry_1 = robotState.angleRadianFromOdometry;
 
     //Calcul des positions dans le referentiel du terrain
-    robotState.xPosFromOdometry = . . .
-    robotState.yPosFromOdometry = . . .
-    robotState.angleRadianFromOdometry = . . .
+    robotState.xPosFromOdometry = robotState.xPosFromOdometry_1 + dx*cos(robotState.angleRadianFromOdometry);
+    robotState.yPosFromOdometry = robotState.yPosFromOdometry_1 + dx*sin(robotState.angleRadianFromOdometry);
+    robotState.angleRadianFromOdometry = robotState.angleRadianFromOdometry_1 + delta_theta;
     if(robotState.angleRadianFromOdometry > PI)
-        robotState.angleRadianFromOdometry ?= 2?PI;
-    if (robotState.angleRadianFromOdometry < ?PI)
-        robotState.angleRadianFromOdometry += 2?PI;
+        robotState.angleRadianFromOdometry -= 2*PI;
+    if (robotState.angleRadianFromOdometry < -PI)
+        robotState.angleRadianFromOdometry += 2*PI;
 }
