@@ -25,7 +25,7 @@
         </GroupBox>
 
         <GroupBox x:Name="Reception" Header="Réception" Background="#8CC3FA" Grid.Column="1" Grid.Row="0" Margin="5" >
-            <TextBox x:Name="textBoxReception" Margin="0,0,0,-3" TextWrapping="Wrap" Text="" BorderBrush="{x:Null}" Background="{x:Null}" AcceptsReturn="True" IsReadOnly="True"/>
+            <TextBox x:Name="textBoxReception" Margin="0,0,0,-3" TextWrapping="Wrap" Text="" BorderBrush="{x:Null}" Background="{x:Null}" AcceptsReturn="True" IsReadOnly="True" TextChanged="textBoxReception_TextChanged"/>
         </GroupBox>
 
         <GroupBox x:Name="Info" Header="Info" Background="#8CC3FA" Grid.Column="2" Grid.Row="0" Margin="5">

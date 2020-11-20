@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MouseKeyboardActivityMonitor.WinApi;
 using MouseKeyboardActivityMonitor;
+using Utilities;
 
 
 namespace RobotInterface
@@ -166,7 +167,12 @@ namespace RobotInterface
                 textBoxReception.ScrollToEnd();
                 robot.flagChecksum = false;
             }
-           
+            /*if (robot.flagNewPositionData)
+            {
+                textBoxInfo.Text += "Info de position :" + ;
+                textBoxInfo.ScrollToEnd();
+                robot.flagNewPositionData = false;
+            } */          
 
 
         }
@@ -308,6 +314,7 @@ namespace RobotInterface
                     robot.receivedEtape = msgPayload[0];
                     robot.receivedInstantCourant = (((int)msgPayload[1]) << 24) + (((int)msgPayload[2]) << 16) + (((int)msgPayload[3]) << 8) + (((int)msgPayload[4]) << 0);
                     break;
+
                 case 0x40:
                     robot.flagNewVitesseData = true;
                     robot.vitesseMoteurGauche= msgPayload[0];
@@ -317,6 +324,28 @@ namespace RobotInterface
                 case 0x80: // Text transmission
                     robot.flagNewReceptionData = true;
                     robot.receivedMessage = System.Text.Encoding.UTF8.GetString(msgPayload);
+                    break;
+
+                case 0x61:
+                    //robot.flagNewPositionData = true;
+                    //string display = " ";
+                    byte[] xpos_array = msgPayload.GetRange(4, 4);
+                    float xpos = xpos_array.GetFloat();
+
+                    byte[] ypos_array = msgPayload.GetRange(8, 4);
+                    float ypos = ypos_array.GetFloat();
+
+                    byte[] angle_array = msgPayload.GetRange(12, 4);
+                    float angle = angle_array.GetFloat();
+
+                    byte[] vitesseLineaire_array = msgPayload.GetRange(16, 4);
+                    float vitesseLineaire = vitesseLineaire_array.GetFloat();
+
+                    byte[] vitesseAngulaire_array = msgPayload.GetRange(20, 4);
+                    float vitesseAngulaire = vitesseAngulaire_array.GetFloat();
+
+                    //display = "x=" + xpos;  //+ ";y=" + ypos + ";angle=" + angle + ";vit_lin=" + vitesseLineaire + ";vit_angle="+ vitesseAngulaire;
+                    AsservDisplay.UpdatePolarSpeedConsigneValues(xpos, ypos, angle);
                     break;
 
                 case 0x51: //SetRobotState
@@ -423,6 +452,11 @@ namespace RobotInterface
         }
 
         private void comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void textBoxReception_TextChanged(object sender, TextChangedEventArgs e)
         {
 
         }

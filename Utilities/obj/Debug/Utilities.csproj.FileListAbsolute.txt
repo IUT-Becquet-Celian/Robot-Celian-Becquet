@@ -1,0 +1,2 @@
+C:\Users\Table2\Desktop\RoboCup2020\C#\Utilities\obj\Debug\Utilities.csprojAssemblyReference.cache
+C:\Users\Table2\Desktop\RoboCup2020\C#\Utilities\obj\Debug\Utilities.csproj.CoreCompileInputs.cache
