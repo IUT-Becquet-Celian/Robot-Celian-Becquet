@@ -1,4 +1,4 @@
-po#include <xc.h>
+#include <xc.h>
 #include "timer.h"
 #include "IO.h"
 #include "PWM.h"
@@ -6,6 +6,7 @@ po#include <xc.h>
 #include "ADC.h"
 #include "main.h"
 #include "Utilities.h"
+#include "QEI.h"
 
 unsigned char toggle = 0 ;
 unsigned long timestamp;
@@ -72,6 +73,7 @@ int subcounter = 0;
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     IFS0bits.T1IF = 0;
     ADC1StartConversionSequence();
+    QEIUpdateData();
     PWMUpdateSpeed();
     if(subcounter++%10==0)
     {

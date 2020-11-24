@@ -345,7 +345,8 @@ namespace RobotInterface
                     float vitesseAngulaire = vitesseAngulaire_array.GetFloat();
 
                     //display = "x=" + xpos;  //+ ";y=" + ypos + ";angle=" + angle + ";vit_lin=" + vitesseLineaire + ";vit_angle="+ vitesseAngulaire;
-                    AsservDisplay.UpdatePolarSpeedConsigneValues(xpos, ypos, angle);
+                   // AsservDisplay.UpdatePolarSpeedConsigneValues(xpos, ypos, angle);
+                    AsservDisplay.UpdatePolarOdometrySpeed(xpos, ypos, angle);
                     break;
 
                 case 0x51: //SetRobotState

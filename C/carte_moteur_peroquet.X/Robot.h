@@ -33,6 +33,9 @@ typedef struct robotStateBITS {
             float angleRadianFromOdometry_1;
             float angleRadianFromOdometry;
             
+            long QEI1RawValue;
+            long QEI2RawValue;
+            
         };
     };
 } ROBOT_STATE_BITS;

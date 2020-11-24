@@ -89,6 +89,12 @@ void SendPositionData()
     getBytesFromInt32(positionPayload, 0, timestamp);
     getBytesFromFloat(positionPayload, 4, (float)(robotState.xPosFromOdometry));
     getBytesFromFloat(positionPayload, 8, (float)(robotState.yPosFromOdometry));
+//    getBytesFromFloat(positionPayload, 12, (float)(robotState.angleRadianFromOdometry));
+//    getBytesFromFloat(positionPayload, 16, (float)(robotState.vitesseLineaireFromOdometry));
+//    getBytesFromFloat(positionPayload, 20, (float)(robotState.vitesseAngulaireFromOdometry));
+    
+//    getBytesFromFloat(positionPayload, 4, (float)(robotState.QEI1RawValue));
+//    getBytesFromFloat(positionPayload, 8, (float)(robotState.QEI2RawValue));
     getBytesFromFloat(positionPayload, 12, (float)(robotState.angleRadianFromOdometry));
     getBytesFromFloat(positionPayload, 16, (float)(robotState.vitesseLineaireFromOdometry));
     getBytesFromFloat(positionPayload, 20, (float)(robotState.vitesseAngulaireFromOdometry));

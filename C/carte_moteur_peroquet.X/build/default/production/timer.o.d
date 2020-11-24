@@ -6,4 +6,5 @@ PWM.h  \
 Robot.h  \
  ADC.h  \
 main.h  \
-Utilities.h 
+Utilities.h  \
+QEI.h 

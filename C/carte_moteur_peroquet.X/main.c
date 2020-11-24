@@ -14,6 +14,7 @@
 #include "CB_TX1.h"
 #include "CB_RX1.h"
 #include "UART_Protocol.h"
+#include "QEI.h"
 
 int main(void) {
     /***************************************************************************************************/
