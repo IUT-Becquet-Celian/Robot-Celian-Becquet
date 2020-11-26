@@ -1,7 +1,3 @@
-C:\Github\Robot-Celian-Becquet\C#\WpfAsservissementDisplay\obj\Debug\WpfAsservissementDisplay.csprojAssemblyReference.cache
-C:\Github\Robot-Celian-Becquet\C#\WpfAsservissementDisplay\obj\Debug\AsservissementXYThetaControl.g.cs
-C:\Github\Robot-Celian-Becquet\C#\WpfAsservissementDisplay\obj\Debug\WpfAsservissementDisplay_MarkupCompile.cache
-C:\Github\Robot-Celian-Becquet\C#\WpfAsservissementDisplay\obj\Debug\WpfAsservissementDisplay_MarkupCompile.lref
 C:\Github\Robot-Celian-Becquet\C#\WpfAsservissementDisplay\bin\Debug\WpfAsservissementDisplay.dll
 C:\Github\Robot-Celian-Becquet\C#\WpfAsservissementDisplay\bin\Debug\WpfAsservissementDisplay.pdb
 C:\Github\Robot-Celian-Becquet\C#\WpfAsservissementDisplay\bin\Debug\Utilities.dll
@@ -9,6 +5,10 @@ C:\Github\Robot-Celian-Becquet\C#\WpfAsservissementDisplay\bin\Debug\Newtonsoft.
 C:\Github\Robot-Celian-Becquet\C#\WpfAsservissementDisplay\bin\Debug\ICSharpCode.SharpZipLib.dll
 C:\Github\Robot-Celian-Becquet\C#\WpfAsservissementDisplay\bin\Debug\Utilities.pdb
 C:\Github\Robot-Celian-Becquet\C#\WpfAsservissementDisplay\bin\Debug\ICSharpCode.SharpZipLib.pdb
+C:\Github\Robot-Celian-Becquet\C#\WpfAsservissementDisplay\obj\Debug\WpfAsservissementDisplay.csprojAssemblyReference.cache
+C:\Github\Robot-Celian-Becquet\C#\WpfAsservissementDisplay\obj\Debug\AsservissementXYThetaControl.g.cs
+C:\Github\Robot-Celian-Becquet\C#\WpfAsservissementDisplay\obj\Debug\WpfAsservissementDisplay_MarkupCompile.cache
+C:\Github\Robot-Celian-Becquet\C#\WpfAsservissementDisplay\obj\Debug\WpfAsservissementDisplay_MarkupCompile.lref
 C:\Github\Robot-Celian-Becquet\C#\WpfAsservissementDisplay\obj\Debug\AsservissementXYThetaControl.baml
 C:\Github\Robot-Celian-Becquet\C#\WpfAsservissementDisplay\obj\Debug\WpfAsservissementDisplay.g.resources
 C:\Github\Robot-Celian-Becquet\C#\WpfAsservissementDisplay\obj\Debug\WpfAsservissementDisplay.Properties.Resources.resources

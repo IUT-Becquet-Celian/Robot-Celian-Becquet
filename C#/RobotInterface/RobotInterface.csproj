@@ -109,9 +109,17 @@
       <Project>{21ac599e-e3d5-4181-aa0f-7c2e00cca016}</Project>
       <Name>ExtendedSerialPort</Name>
     </ProjectReference>
+    <ProjectReference Include="..\InteractiveDataDisplay\InteractiveDataDisplay.WPF.csproj">
+      <Project>{2d34544c-2df2-4b20-a43a-6c8d2df3dd82}</Project>
+      <Name>InteractiveDataDisplay.WPF</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WpfAsservissementDisplay\WpfAsservissementDisplay.csproj">
       <Project>{f0a887e9-d0a2-47e3-994a-94a0dcae8d4f}</Project>
       <Name>WpfAsservissementDisplay</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WpfMapDisplay\WpfMapDisplay.csproj">
+      <Project>{64ff3c72-89bd-451e-b4cc-f27466147911}</Project>
+      <Name>WpfMapDisplay</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

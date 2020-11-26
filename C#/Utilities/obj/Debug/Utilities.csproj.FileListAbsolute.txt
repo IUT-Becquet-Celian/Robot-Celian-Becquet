@@ -5,7 +5,6 @@ C:\Github\Robot-Celian-Becquet\C#\Utilities\bin\Debug\Utilities.pdb
 C:\Github\Robot-Celian-Becquet\C#\Utilities\bin\Debug\Newtonsoft.Json.dll
 C:\Github\Robot-Celian-Becquet\C#\Utilities\bin\Debug\ICSharpCode.SharpZipLib.dll
 C:\Github\Robot-Celian-Becquet\C#\Utilities\bin\Debug\ICSharpCode.SharpZipLib.pdb
-C:\Github\Robot-Celian-Becquet\C#\Utilities\obj\Debug\Utilities.csprojAssemblyReference.cache
 C:\Github\Robot-Celian-Becquet\C#\Utilities\obj\Debug\Utilities.csproj.CoreCompileInputs.cache
 C:\Github\Robot-Celian-Becquet\C#\Utilities\obj\Debug\Utilities.csproj.CopyComplete
 C:\Github\Robot-Celian-Becquet\C#\Utilities\obj\Debug\Utilities.dll

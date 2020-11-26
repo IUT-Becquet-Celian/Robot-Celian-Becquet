@@ -163,7 +163,7 @@ namespace RobotInterface
             }
             if (robot.flagChecksum)
             {
-                textBoxInfo.Text += "Checksum pas valide \n";
+                //textBoxInfo.Text += "Checksum pas valide \n";
                 textBoxReception.ScrollToEnd();
                 robot.flagChecksum = false;
             }
@@ -343,6 +343,11 @@ namespace RobotInterface
 
                     byte[] vitesseAngulaire_array = msgPayload.GetRange(20, 4);
                     float vitesseAngulaire = vitesseAngulaire_array.GetFloat();
+
+                    mapDisplay.Robot[0].x = xpos;
+                    mapDisplay.Robot[0].y = ypos;
+
+                    mapDisplay.UpdateRobotPosition();
 
                     //display = "x=" + xpos;  //+ ";y=" + ypos + ";angle=" + angle + ";vit_lin=" + vitesseLineaire + ";vit_angle="+ vitesseAngulaire;
                    // AsservDisplay.UpdatePolarSpeedConsigneValues(xpos, ypos, angle);

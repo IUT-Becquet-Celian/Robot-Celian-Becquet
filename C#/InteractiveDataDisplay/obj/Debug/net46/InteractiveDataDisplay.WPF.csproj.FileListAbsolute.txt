@@ -1,0 +1,17 @@
+C:\Github\Robot-Celian-Becquet\C#\InteractiveDataDisplay\bin\Debug\net46\InteractiveDataDisplay.WPF.dll
+C:\Github\Robot-Celian-Becquet\C#\InteractiveDataDisplay\bin\Debug\net46\InteractiveDataDisplay.WPF.pdb
+C:\Github\Robot-Celian-Becquet\C#\InteractiveDataDisplay\bin\Debug\net46\Microsoft.Maps.MapControl.WPF.dll
+C:\Github\Robot-Celian-Becquet\C#\InteractiveDataDisplay\bin\Debug\net46\System.Reactive.dll
+C:\Github\Robot-Celian-Becquet\C#\InteractiveDataDisplay\obj\Debug\net46\GeneratedInternalTypeHelper.g.cs
+C:\Github\Robot-Celian-Becquet\C#\InteractiveDataDisplay\obj\Debug\net46\InteractiveDataDisplay.WPF_MarkupCompile.cache
+C:\Github\Robot-Celian-Becquet\C#\InteractiveDataDisplay\obj\Debug\net46\InteractiveDataDisplay.WPF_MarkupCompile.lref
+C:\Github\Robot-Celian-Becquet\C#\InteractiveDataDisplay\obj\Debug\net46\Legend\DefaultTemplates.baml
+C:\Github\Robot-Celian-Becquet\C#\InteractiveDataDisplay\obj\Debug\net46\Plots\Markers\MarkerTemplates.baml
+C:\Github\Robot-Celian-Becquet\C#\InteractiveDataDisplay\obj\Debug\net46\Themes\Generic.baml
+C:\Github\Robot-Celian-Becquet\C#\InteractiveDataDisplay\obj\Debug\net46\InteractiveDataDisplay.WPF.g.resources
+C:\Github\Robot-Celian-Becquet\C#\InteractiveDataDisplay\obj\Debug\net46\InteractiveDataDisplay.WPF.AssemblyInfoInputs.cache
+C:\Github\Robot-Celian-Becquet\C#\InteractiveDataDisplay\obj\Debug\net46\InteractiveDataDisplay.WPF.AssemblyInfo.cs
+C:\Github\Robot-Celian-Becquet\C#\InteractiveDataDisplay\obj\Debug\net46\InteractiveDataDisplay.WPF.csproj.CoreCompileInputs.cache
+C:\Github\Robot-Celian-Becquet\C#\InteractiveDataDisplay\obj\Debug\net46\InteractiveDataDisplay.WPF.csproj.CopyComplete
+C:\Github\Robot-Celian-Becquet\C#\InteractiveDataDisplay\obj\Debug\net46\InteractiveDataDisplay.WPF.dll
+C:\Github\Robot-Celian-Becquet\C#\InteractiveDataDisplay\obj\Debug\net46\InteractiveDataDisplay.WPF.pdb
