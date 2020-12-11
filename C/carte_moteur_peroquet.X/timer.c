@@ -74,8 +74,8 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     IFS0bits.T1IF = 0;
     ADC1StartConversionSequence();
     QEIUpdateData();
-    PWMUpdateSpeed();
-//    PWMSetSpeedConsignePolaire();
+    PWMSetSpeedConsignePolaire();
+    PWMUpdateSpeed();    
     
     if(subcounter++%10==0)
     {
