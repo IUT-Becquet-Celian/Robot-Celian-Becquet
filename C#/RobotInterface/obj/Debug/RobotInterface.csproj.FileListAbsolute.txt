@@ -67,3 +67,13 @@ C:\Github\Robot-Celian-Becquet\C#\RobotInterface\bin\Debug\ICSharpCode.SharpZipL
 C:\Github\Robot-Celian-Becquet\C#\RobotInterface\bin\Debug\WpfAsservissementDisplay.pdb
 C:\Github\Robot-Celian-Becquet\C#\RobotInterface\bin\Debug\Utilities.pdb
 C:\Github\Robot-Celian-Becquet\C#\RobotInterface\bin\Debug\ICSharpCode.SharpZipLib.pdb
+C:\Github\Robot-Celian-Becquet\C#\RobotInterface\bin\Debug\WpfSimplifiedWorldMapDisplay.dll
+C:\Github\Robot-Celian-Becquet\C#\RobotInterface\bin\Debug\SciChart.Charting.dll
+C:\Github\Robot-Celian-Becquet\C#\RobotInterface\bin\Debug\SciChart.Drawing.dll
+C:\Github\Robot-Celian-Becquet\C#\RobotInterface\bin\Debug\SciChart.Data.dll
+C:\Github\Robot-Celian-Becquet\C#\RobotInterface\bin\Debug\SciChart.Core.dll
+C:\Github\Robot-Celian-Becquet\C#\RobotInterface\bin\Debug\WpfSimplifiedWorldMapDisplay.pdb
+C:\Github\Robot-Celian-Becquet\C#\RobotInterface\bin\Debug\SciChart.Charting.xml
+C:\Github\Robot-Celian-Becquet\C#\RobotInterface\bin\Debug\SciChart.Drawing.xml
+C:\Github\Robot-Celian-Becquet\C#\RobotInterface\bin\Debug\SciChart.Data.xml
+C:\Github\Robot-Celian-Becquet\C#\RobotInterface\bin\Debug\SciChart.Core.xml

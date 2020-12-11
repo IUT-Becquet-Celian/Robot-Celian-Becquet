@@ -58,6 +58,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WpfSimplifiedWorldMapDisplay">
+      <HintPath>..\WorldMapDisplay\WpfSimplifiedWorldMapDisplayCompiled\WpfSimplifiedWorldMapDisplay.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

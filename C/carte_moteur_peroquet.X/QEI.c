@@ -3,7 +3,7 @@
 #include "Utilities.h"
 #include <xc.h>
 #include <math.h>
-#define DISTROUES 0.221
+//#define DISTROUES 0.221
 
 float QeiDroitPosition_T_1 = 0;
 float QeiGauchePosition_T_1 = 0;
