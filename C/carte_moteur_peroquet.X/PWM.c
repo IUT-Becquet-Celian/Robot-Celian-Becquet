@@ -29,7 +29,6 @@ void InitPWM(void) {
     PTCONbits.PTEN = 1;
 }
 
-
 float acceleration = 10;
 
 void PWMUpdateSpeed() {
@@ -91,14 +90,33 @@ void PWMSetSpeedConsigne (float vitesseEnPourcents, char moteur)
 
 #define COEFF_VITESSE_LINEAIRE_PERCENT 1/25
 #define COEFF_VITESSE_ANGULAIRE_PERCENT 1/50
+double IntegralVitesseAngulaire = 0;
+double tEch = 0.02;
+double corrKpMax = 2;
+double corrKiMax = 2;
+double corrKdMax = 2;
+double Kp = 2;
+double Ki = 50;
+double Kd = 50;
+double erreurVitesseAngulaire_1=0 ; //erreur à t-1
 
 void PWMSetSpeedConsignePolaire()
 {
     robotState.vitesseAngulaireConsigne=3;
 //    robotState.vitesseLineaireConsigne=1;
     //Correction Angulaire
-    double erreurVitesseAngulaire = robotState.vitesseAngulaireConsigne - robotState.vitesseAngulaireFromOdometry;  
-    double sortieCorrecteurAngulaire = P * erreurVitesseAngulaire;
+    double erreurVitesseAngulaire = robotState.vitesseAngulaireConsigne - robotState.vitesseAngulaireFromOdometry;  //Il faut pouvoir visualiser les deux sur l'interface !
+    double corrPVitesseAngulaire = erreurVitesseAngulaire * Kp;
+    corrPVitesseAngulaire = LimitToInterval(corrPVitesseAngulaire, -corrKpMax, corrKpMax); //On plafonne l'effet Kp
+    
+    IntegralVitesseAngulaire += erreurVitesseAngulaire*tEch;
+    IntegralVitesseAngulaire = LimitToInterval(IntegralVitesseAngulaire, -corrKiMax / Ki, corrKiMax /Ki );    
+    double corrIVitesseAngulaire = IntegralVitesseAngulaire * Ki; 
+    
+    double deriveeVitesseAngulaire = (erreurVitesseAngulaire - erreurVitesseAngulaire_1)/tEch;
+    double corrDVitesseAngulaire = LimitToInterval(deriveeVitesseAngulaire * Kd, -corrKdMax, corrKdMax);
+    
+    double sortieCorrecteurAngulaire = corrPVitesseAngulaire+corrIVitesseAngulaire+corrDVitesseAngulaire;
     //double correctionVitesseAngulaire =
     double correctionVitesseAngulairePourcent = sortieCorrecteurAngulaire * COEFF_VITESSE_ANGULAIRE_PERCENT;
     
