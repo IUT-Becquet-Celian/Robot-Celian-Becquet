@@ -56,6 +56,18 @@ namespace RobotInterface
             m_KeyboardHookManager = new KeyboardHookListener(new GlobalHooker());
             m_KeyboardHookManager.Enabled = true;
             m_KeyboardHookManager.KeyDown += HookManager_KeyDown;
+
+            WorldMap.Init(3.6, 2.4, 3, 2, "");
+            var robotShape = new WpfSimplifiedWorldMapDisplayNS.PolygonExtended();
+            robotShape.polygon.Points.Add(new Point(0.2, 0));
+            robotShape.polygon.Points.Add(new Point(0.1, 0.1));
+            robotShape.polygon.Points.Add(new Point(-0.1, 0.1));
+            robotShape.polygon.Points.Add(new Point(-0.1, -0.1));
+            robotShape.polygon.Points.Add(new Point(0.1, -0.1));
+            robotShape.polygon.Points.Add(new Point(0.2, 0));
+            WorldMap.SetRobotShape(robotShape);
+            WorldMap.UpdateRobotLocation(new WpfSimplifiedWorldMapDisplayNS.Location(robot.xpos, robot.ypos, robot.angle , 0, 0, 0));
+            //AsservDisplay.UpdatePolarSpeedConsigneValues(consigneX, consigneY, consigneTheta);
         }
 
         private void HookManager_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
@@ -141,11 +153,13 @@ namespace RobotInterface
                 Label_IRDroit.Content = "IR Droit : " + robot.distanceTelemetreDroit + "cm";
                 robot.flagNewIrData = false;
             }
+            
 
             if (robot.flagNewVitesseData)
             {
                 Label_VitesseGauche.Content = "Vitesse Gauche : " + robot.vitesseMoteurGauche + " %";
                 Label_VitesseDroit.Content = "Vitesse Droit : " + robot.vitesseMoteurDroit + " %";
+                AsservDisplay.UpdatePolarOdometrySpeed(robot.vitesseMoteurGauche, robot.vitesseMoteurDroit, 0);
                 robot.flagNewVitesseData = false;
             }
 
@@ -167,13 +181,18 @@ namespace RobotInterface
                 textBoxReception.ScrollToEnd();
                 robot.flagChecksum = false;
             }
+            if(robot.flagNewVitesseConsigneData)
+            {
+                AsservDisplay.UpdatePolarSpeedConsigneValues(robot.vitesseGaucheConsigne, robot.vitesseDroiteConsigne,0);
+                robot.flagNewVitesseConsigneData = false;
+            }
             /*if (robot.flagNewPositionData)
             {
                 textBoxInfo.Text += "Info de position :" + ;
                 textBoxInfo.ScrollToEnd();
                 robot.flagNewPositionData = false;
-            } */          
-
+            } */
+            WorldMap.UpdateRobotLocation(new WpfSimplifiedWorldMapDisplayNS.Location(robot.xpos, robot.ypos, robot.angle, 0, 0, 0));
 
         }
 
@@ -321,6 +340,13 @@ namespace RobotInterface
                     robot.vitesseMoteurDroit = msgPayload[1];
                     break;
 
+                case 0x41:
+                    robot.flagNewVitesseConsigneData = true;
+                    robot.vitesseGaucheConsigne = BitConverter.ToSingle(msgPayload, 0);
+                    robot.vitesseDroiteConsigne = BitConverter.ToSingle(msgPayload, 4);
+                    
+                    break;
+
                 case 0x80: // Text transmission
                     robot.flagNewReceptionData = true;
                     robot.receivedMessage = System.Text.Encoding.UTF8.GetString(msgPayload);
@@ -330,13 +356,13 @@ namespace RobotInterface
                     //robot.flagNewPositionData = true;
                     //string display = " ";
                     byte[] xpos_array = msgPayload.GetRange(4, 4);
-                    float xpos = xpos_array.GetFloat();
+                    robot.xpos = xpos_array.GetFloat();
 
                     byte[] ypos_array = msgPayload.GetRange(8, 4);
-                    float ypos = ypos_array.GetFloat();
+                    robot.ypos = ypos_array.GetFloat();
 
                     byte[] angle_array = msgPayload.GetRange(12, 4);
-                    float angle = angle_array.GetFloat();
+                    robot.angle = angle_array.GetFloat();
 
                     byte[] vitesseLineaire_array = msgPayload.GetRange(16, 4);
                     float vitesseLineaire = vitesseLineaire_array.GetFloat();
@@ -346,7 +372,7 @@ namespace RobotInterface
 
                     //display = "x=" + xpos;  //+ ";y=" + ypos + ";angle=" + angle + ";vit_lin=" + vitesseLineaire + ";vit_angle="+ vitesseAngulaire;
                    // AsservDisplay.UpdatePolarSpeedConsigneValues(xpos, ypos, angle);
-                    AsservDisplay.UpdatePolarOdometrySpeed(xpos, ypos, angle);
+                   //AsservDisplay.UpdatePolarOdometrySpeed(robot.xpos, robot.ypos, robot.angle);
                     break;
 
                 case 0x51: //SetRobotState
@@ -421,13 +447,13 @@ namespace RobotInterface
         {
             //byte[] array = new byte[] { 0xFF,20,30}/*Encoding.ASCII.GetBytes("Bonjour")*/;
             //UartEncodeAndSendMessage(0x0030, array.Length, array);
-            
-            byte[] array1 = Encoding.ASCII.GetBytes("Bonjour");
-            UartEncodeAndSendMessage(0x0080, array1.Length, array1);
-            
+
+            //byte[] array1 = Encoding.ASCII.GetBytes("Bonjour");
+            //UartEncodeAndSendMessage(0x0080, array1.Length, array1);
+
             //byte[] array2 = new byte[] { 50, 70 }/*Encoding.ASCII.GetBytes("Bonjour")*/;
             //UartEncodeAndSendMessage(0x0040, array2.Length, array2);
-            
+
 
             //Label_IRGauche.Content = "IR Gauche : " + robot.distanceTelemetreGauche + "cm";
             //Label_IRCentre.Content = "IR Centre : " + robot.distanceTelemetreCentre + "cm";
@@ -435,7 +461,15 @@ namespace RobotInterface
             //Label_VitesseGauche.Content = "Vitesse Gauche : " + 10 + " %";
             //Label_VitesseDroit.Content = "Vitesse Droit : " + 10 + " %";
 
-            
+            float droit = 1f;
+            float gauche = 1f;
+            byte[] arraydroit = BitConverter.GetBytes(droit);
+            byte[] arraygauche = BitConverter.GetBytes(gauche);
+            byte[] dataToSend = new byte[8]; //sending 2*4 bytes (float)
+            Buffer.BlockCopy(arraydroit, 0, dataToSend, 0, 4);
+            Buffer.BlockCopy(arraygauche, 0, dataToSend, 4, 4);
+
+            UartEncodeAndSendMessage(0x0041, dataToSend.Length, dataToSend);
         }
 
         private void checkBox_Checked(object sender, RoutedEventArgs e)

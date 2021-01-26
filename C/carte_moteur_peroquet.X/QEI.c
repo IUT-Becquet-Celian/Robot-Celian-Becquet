@@ -66,6 +66,8 @@ void QEIUpdateData() {
     robotState.vitesseGaucheFromOdometry = delta_g*FREQ_ECH_QEI;
     robotState.vitesseLineaireFromOdometry = (robotState.vitesseDroitFromOdometry + robotState.vitesseGaucheFromOdometry) / 2;
     robotState.vitesseAngulaireFromOdometry = delta_theta*FREQ_ECH_QEI;
+    unsigned char payload[] = {robotState.vitesseGaucheFromOdometry, robotState.vitesseDroitFromOdometry};
+    UartEncodeAndSendMessage(0x0040, 2, payload);
 
     //Mise à jour du positionnement terrain à t-1
     robotState.xPosFromOdometry_1 = robotState.xPosFromOdometry;

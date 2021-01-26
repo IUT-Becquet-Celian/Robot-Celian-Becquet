@@ -53,7 +53,7 @@
 // Configuration des paramtères du chip
 #define FCY 40000000
 
-void OperatingSystemLoop (void);
+void OperatingSystemLoop(void);
 void SetNextRobotStateInAutomaticMode();
 
 

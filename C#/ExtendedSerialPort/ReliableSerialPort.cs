@@ -53,4 +53,6 @@ namespace ExtendedSerialPort
     {
         public byte[] Data { get; set; }
     }
+
+   
 }

@@ -117,15 +117,18 @@ namespace WpfSimplifiedWorldMapDisplayNS
         private PolygonExtended GetRobotPolygon()
         {
             PolygonExtended polygonToDisplay = new PolygonExtended();
-            foreach (var pt in robotShape.polygon.Points)
+            if (robotShape != null)
             {
-                Point polyPt = new Point(pt.X * Math.Cos(robotLocation.Theta) - pt.Y * Math.Sin(robotLocation.Theta), pt.X * Math.Sin(robotLocation.Theta) + pt.Y * Math.Cos(robotLocation.Theta));
-                polyPt.X += robotLocation.X;
-                polyPt.Y += robotLocation.Y;
-                polygonToDisplay.polygon.Points.Add(polyPt);
-                polygonToDisplay.backgroundColor = robotShape.backgroundColor;
-                polygonToDisplay.borderColor = robotShape.borderColor;
-                polygonToDisplay.borderWidth = robotShape.borderWidth;
+                foreach (var pt in robotShape.polygon.Points)
+                {
+                    Point polyPt = new Point(pt.X * Math.Cos(robotLocation.Theta) - pt.Y * Math.Sin(robotLocation.Theta), pt.X * Math.Sin(robotLocation.Theta) + pt.Y * Math.Cos(robotLocation.Theta));
+                    polyPt.X += robotLocation.X;
+                    polyPt.Y += robotLocation.Y;
+                    polygonToDisplay.polygon.Points.Add(polyPt);
+                    polygonToDisplay.backgroundColor = robotShape.backgroundColor;
+                    polygonToDisplay.borderColor = robotShape.borderColor;
+                    polygonToDisplay.borderWidth = robotShape.borderWidth;
+                }
             }
             return polygonToDisplay;
         }
@@ -134,15 +137,18 @@ namespace WpfSimplifiedWorldMapDisplayNS
         private PolygonExtended GetRobotGhostPolygon()
         {
             PolygonExtended polygonToDisplay = new PolygonExtended();
-            foreach (var pt in ghostShape.polygon.Points)
+            if (ghostShape != null)
             {
-                Point polyPt = new Point(pt.X * Math.Cos(ghostLocation.Theta) - pt.Y * Math.Sin(ghostLocation.Theta), pt.X * Math.Sin(ghostLocation.Theta) + pt.Y * Math.Cos(ghostLocation.Theta));
-                polyPt.X += ghostLocation.X;
-                polyPt.Y += ghostLocation.Y;
-                polygonToDisplay.polygon.Points.Add(polyPt);
-                polygonToDisplay.backgroundColor = ghostShape.backgroundColor;
-                polygonToDisplay.borderColor = ghostShape.borderColor;
-                polygonToDisplay.borderWidth = ghostShape.borderWidth;
+                foreach (var pt in ghostShape.polygon.Points)
+                {
+                    Point polyPt = new Point(pt.X * Math.Cos(ghostLocation.Theta) - pt.Y * Math.Sin(ghostLocation.Theta), pt.X * Math.Sin(ghostLocation.Theta) + pt.Y * Math.Cos(ghostLocation.Theta));
+                    polyPt.X += ghostLocation.X;
+                    polyPt.Y += ghostLocation.Y;
+                    polygonToDisplay.polygon.Points.Add(polyPt);
+                    polygonToDisplay.backgroundColor = ghostShape.backgroundColor;
+                    polygonToDisplay.borderColor = ghostShape.borderColor;
+                    polygonToDisplay.borderWidth = ghostShape.borderWidth;
+                }
             }
             return polygonToDisplay;
         }

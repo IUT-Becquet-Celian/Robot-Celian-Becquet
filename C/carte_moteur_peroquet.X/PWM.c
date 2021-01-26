@@ -6,6 +6,7 @@
 #include "ToolBox.h"
 #include "Utilities.h"
 #include "QEI.h"
+#include "UART_Protocol.h"
 
 #define PWMPER 40.0
 
@@ -100,10 +101,15 @@ double Ki = 50;
 double Kd = 50;
 double erreurVitesseAngulaire_1=0 ; //erreur à t-1
 
-void PWMSetSpeedConsignePolaire()
+
+void PWMSetSpeedConsignePolaire(double consigneLineaire, double consigneAngulaire)
+{    
+    robotState.vitesseAngulaireConsigne=consigneAngulaire;
+    robotState.vitesseLineaireConsigne=consigneLineaire;
+}
+
+void UpdateAsservissementPolaire()
 {
-    robotState.vitesseAngulaireConsigne=3;
-//    robotState.vitesseLineaireConsigne=1;
     //Correction Angulaire
     double erreurVitesseAngulaire = robotState.vitesseAngulaireConsigne - robotState.vitesseAngulaireFromOdometry;  //Il faut pouvoir visualiser les deux sur l'interface !
     double corrPVitesseAngulaire = erreurVitesseAngulaire * Kp;
@@ -135,6 +141,11 @@ void PWMSetSpeedConsignePolaire()
 
     robotState.vitesseGaucheConsigne = correctionVitesseLineairePourcent - correctionVitesseAngulairePourcent;
     robotState.vitesseGaucheConsigne = LimitToInterval(robotState.vitesseGaucheConsigne, -100, 100);
+    
+    unsigned char payload[8];
+    getBytesFromFloat(payload, 0, robotState.vitesseGaucheConsigne);
+    getBytesFromFloat(payload, 4, robotState.vitesseDroiteConsigne);
+    UartEncodeAndSendMessage(0x0041, 8, payload);
 }
 
 /*void PWMSetSpeed(float vitesseEnPourcents, int moteur) {

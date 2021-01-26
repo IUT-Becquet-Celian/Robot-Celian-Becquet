@@ -16,6 +16,8 @@ namespace RobotInterface
         public string receivedMessage;
         public double receivedEtape;
         public double receivedInstantCourant;
+        public double vitesseGaucheConsigne;
+        public double vitesseDroiteConsigne;
         public Queue<byte> byteListReceived = new Queue<byte>();
 
         public bool flagNewIrData = false;
@@ -24,7 +26,12 @@ namespace RobotInterface
         public bool flagNewEtapeData = false;
         public bool flagNewPositionData = false;
         public bool flagChecksum = false;
+        public bool flagNewVitesseConsigneData = false;
         public bool autoControlActivated = true;
+
+        public float xpos = 0;
+        public float ypos = 0;
+        public float angle = 0;
 
 
         public Robot()

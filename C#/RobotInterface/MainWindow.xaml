@@ -63,9 +63,7 @@
 
         <asservDisplay:AsservissementXYThetaControl x:Name="AsservDisplay" Grid.Row="1" Grid.Column="1" Grid.RowSpan="3" Grid.ColumnSpan="2" Margin="8"/>
 
-        <!--<ext:WpfSimplifiedWorldMapDisplay x:Name="WorldMap" Grid.Row="0" Grid.RowSpan="3" Grid.Column="3" Grid.ColumnSpan="5">
-
-        </ext:WpfSimplifiedWorldMapDisplay>-->
+        <ext:WpfSimplifiedWorldMapDisplay x:Name="WorldMap" Grid.Row="0" Grid.RowSpan="4" Grid.Column="3" Grid.ColumnSpan="5"/>
 
 
     </Grid>

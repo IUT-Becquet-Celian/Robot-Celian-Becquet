@@ -58,9 +58,6 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="WpfSimplifiedWorldMapDisplay">
-      <HintPath>..\WorldMapDisplay\WpfSimplifiedWorldMapDisplayCompiled\WpfSimplifiedWorldMapDisplay.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -111,6 +108,10 @@
     <ProjectReference Include="..\ExtendedSerialPort\ExtendedSerialPort.csproj">
       <Project>{21ac599e-e3d5-4181-aa0f-7c2e00cca016}</Project>
       <Name>ExtendedSerialPort</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WorldMapDisplay\WpfSimplifiedWorldMapDisplay\WpfSimplifiedWorldMapDisplay.csproj">
+      <Project>{cd60d0b4-a122-4687-be0b-1529e61980d2}</Project>
+      <Name>WpfSimplifiedWorldMapDisplay</Name>
     </ProjectReference>
     <ProjectReference Include="..\WpfAsservissementDisplay\WpfAsservissementDisplay.csproj">
       <Project>{f0a887e9-d0a2-47e3-994a-94a0dcae8d4f}</Project>

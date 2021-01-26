@@ -7,6 +7,10 @@
 #include "main.h"
 #include "IO.h"
 #include "robot.h"
+#include "Utilities.h"
+#include "PWM.h"
+#include "UART.h"
+
 
 
 unsigned char UartCalculateChecksum(int msgFunction, int msgPayloadLength, unsigned char* msgPayload) {
@@ -125,7 +129,7 @@ void UartDecodeMessage(unsigned char c) {
 }
 
 void UartProcessDecodedMessage(int msgFunction, int msgPayloadLength, unsigned char* msgPayload)
-//Fonction appelee apres le decodage pour executer l'action correspondant au message recu
+//Fonction appelle apres le decodage pour executer l'action correspondant au message recu
 {
     
             switch (msgFunction)
@@ -155,8 +159,16 @@ void UartProcessDecodedMessage(int msgFunction, int msgPayloadLength, unsigned c
                 case SET_ROBOT_MANUAL_CONTROL:
                     SetRobotAutoControlState(msgPayload[0]);
                     break;
-
-                default: // Unknow command
+                    
+                case SET_CONSIGNE:
+                {
+                    float vitessePolaireLineaireConsigne = getFloat(msgPayload, 0);
+                   float vitessePolaireAngulaireConsigne = getFloat(msgPayload, 4);
+                    PWMSetSpeedConsignePolaire(vitessePolaireLineaireConsigne, vitessePolaireAngulaireConsigne);
+                }
+                break;
+                
+                default: // Unknown command
                     break;
             }
      

@@ -9,6 +9,7 @@
 #define	PROTO_H
 #define SET_ROBOT_STATE 0x0051
 #define SET_ROBOT_MANUAL_CONTROL 0x0052
+#define SET_CONSIGNE 0x0041
 
 
 void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, unsigned char msgPayload[]);
@@ -17,6 +18,8 @@ void UartProcessDecodedMessage(int msgFunction, int msgPayloadLength, unsigned c
 unsigned char UartCalculateChecksum(int msgFunction, int msgPayloadLength, unsigned char msgPayload[]);
 void SetRobotState (unsigned char state);
 void SetRobotAutoControlState (unsigned char state);
+
+
 
 #ifdef	__cplusplus
 }

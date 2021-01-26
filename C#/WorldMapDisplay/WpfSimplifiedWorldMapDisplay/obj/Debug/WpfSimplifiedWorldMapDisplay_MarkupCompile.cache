@@ -4,7 +4,7 @@
 library
 C#
 .cs
-D:\WorldMapDisplay\WpfSimplifiedWorldMapDisplay\obj\Debug\
+C:\Github\Robot-Celian-Becquet\C#\WorldMapDisplay\WpfSimplifiedWorldMapDisplay\obj\Debug\
 WpfSimplifiedWorldMapDisplayNS
 none
 false
@@ -12,9 +12,9 @@ DEBUG;TRACE
 
 1-276274987
 
-7-448207222
-18-766477757
+6306362562
+18561332981
 WpfSimplifiedWorldMapDisplay.xaml;
 
-True
+False
 
