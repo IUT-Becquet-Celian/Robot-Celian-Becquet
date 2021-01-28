@@ -63,12 +63,27 @@ int main(void) {
             int i;
             unsigned char payload[] = {robotState.distanceTelemetreInterieurGauche, robotState.distanceTelemetreCentre, robotState.distanceTelemetreInterieurDroit};
             UartEncodeAndSendMessage(0x0030, 3, payload);
-
+            unsigned char payload2[8];// = {robotState.vitesseLineaireConsigne, robotState.vitesseAngulaireConsigne};
+            getBytesFromFloat(payload2, 0, robotState.vitesseLineaireConsigne);
+            getBytesFromFloat(payload2, 4, robotState.vitesseAngulaireConsigne);
+            UartEncodeAndSendMessage(0x0041, 8, payload2);
+            
             for (i = 0; i < CB_RX1_GetDataSize(); i++) {
                 unsigned char c = CB_RX1_Get();
                 //SendMessage(&c,1);
                 UartDecodeMessage(c);
             }
+            if (JACK) {
+            PWMSetSpeedConsigne(24, MOTEUR_DROIT);
+            PWMSetSpeedConsigne(24, MOTEUR_GAUCHE);
+            }
+            else {
+                PWMSetSpeedConsigne(0, MOTEUR_DROIT);
+                PWMSetSpeedConsigne(0, MOTEUR_GAUCHE);
+            }
+                        
+            
+
 
         }
 

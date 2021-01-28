@@ -79,6 +79,10 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     
     if(subcounter++%10==0)
     {
+        unsigned char payload3[8];
+        getBytesFromFloat(payload3, 0, robotState.vitesseGaucheFromOdometry);
+        getBytesFromFloat(payload3, 4, robotState.vitesseDroitFromOdometry);
+        UartEncodeAndSendMessage(0x0040, 8, payload3);
         SendPositionData();
         subcounter=0;
     }

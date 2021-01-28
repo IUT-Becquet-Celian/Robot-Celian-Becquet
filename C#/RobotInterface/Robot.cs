@@ -18,6 +18,8 @@ namespace RobotInterface
         public double receivedInstantCourant;
         public double vitesseGaucheConsigne;
         public double vitesseDroiteConsigne;
+        public double vitesseLineaireConsigne;
+        public double vitesseAngulaireConsigne;
         public Queue<byte> byteListReceived = new Queue<byte>();
 
         public bool flagNewIrData = false;
@@ -27,6 +29,7 @@ namespace RobotInterface
         public bool flagNewPositionData = false;
         public bool flagChecksum = false;
         public bool flagNewVitesseConsigneData = false;
+        public bool flagNewVitessePolaireConsigneData = false;
         public bool autoControlActivated = true;
 
         public float xpos = 0;

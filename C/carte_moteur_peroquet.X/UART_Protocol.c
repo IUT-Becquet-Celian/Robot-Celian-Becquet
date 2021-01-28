@@ -161,11 +161,13 @@ void UartProcessDecodedMessage(int msgFunction, int msgPayloadLength, unsigned c
                     break;
                     
                 case SET_CONSIGNE:
-                {
-                    float vitessePolaireLineaireConsigne = getFloat(msgPayload, 0);
-                   float vitessePolaireAngulaireConsigne = getFloat(msgPayload, 4);
-                    PWMSetSpeedConsignePolaire(vitessePolaireLineaireConsigne, vitessePolaireAngulaireConsigne);
-                }
+                
+                   robotState.vitesseLineaireConsigne = getFloat(msgPayload, 0);
+                   robotState.vitesseAngulaireConsigne = getFloat(msgPayload, 4);
+                   PWMSetSpeedConsignePolaire(robotState.vitesseLineaireConsigne, robotState.vitesseAngulaireConsigne);
+                
+                
+                
                 break;
                 
                 default: // Unknown command

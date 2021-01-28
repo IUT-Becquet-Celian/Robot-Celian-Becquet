@@ -12,6 +12,7 @@
 #define SET_CONSIGNE 0x0041
 
 
+
 void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, unsigned char msgPayload[]);
 void UartDecodeMessage(unsigned char c);
 void UartProcessDecodedMessage(int msgFunction, int msgPayloadLength, unsigned char* msgPayload);
@@ -19,7 +20,7 @@ unsigned char UartCalculateChecksum(int msgFunction, int msgPayloadLength, unsig
 void SetRobotState (unsigned char state);
 void SetRobotAutoControlState (unsigned char state);
 
-
+//float vitessePolaireLineaireConsigne=0;
 
 #ifdef	__cplusplus
 }

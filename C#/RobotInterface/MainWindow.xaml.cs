@@ -159,7 +159,7 @@ namespace RobotInterface
             {
                 Label_VitesseGauche.Content = "Vitesse Gauche : " + robot.vitesseMoteurGauche + " %";
                 Label_VitesseDroit.Content = "Vitesse Droit : " + robot.vitesseMoteurDroit + " %";
-                AsservDisplay.UpdatePolarOdometrySpeed(robot.vitesseMoteurGauche, robot.vitesseMoteurDroit, 0);
+                AsservDisplay.UpdateIndependantOdometrySpeed(robot.vitesseMoteurGauche, robot.vitesseMoteurDroit, 4, 4) ;
                 robot.flagNewVitesseData = false;
             }
 
@@ -169,29 +169,33 @@ namespace RobotInterface
                 textBoxReception.ScrollToEnd();
                 robot.flagNewReceptionData = false;
             }
+
             if (robot.flagNewEtapeData)
             {
                 textBoxReception.Text += "Robot state : " + (StateRobot)robot.receivedEtape + "\n" + "Instant courant : " + robot.receivedInstantCourant + " ms\n" ;
                 textBoxReception.ScrollToEnd();
                 robot.flagNewEtapeData = false;
             }
+
             if (robot.flagChecksum)
             {
                 textBoxInfo.Text += "Checksum pas valide \n";
                 textBoxReception.ScrollToEnd();
                 robot.flagChecksum = false;
             }
-            if(robot.flagNewVitesseConsigneData)
+
+            if(robot.flagNewVitessePolaireConsigneData)
             {
-                AsservDisplay.UpdatePolarSpeedConsigneValues(robot.vitesseGaucheConsigne, robot.vitesseDroiteConsigne,0);
-                robot.flagNewVitesseConsigneData = false;
+                AsservDisplay.UpdatePolarSpeedConsigneValues(robot.vitesseLineaireConsigne, 0, robot.vitesseAngulaireConsigne);
+                robot.flagNewVitessePolaireConsigneData = false;
             }
-            /*if (robot.flagNewPositionData)
+
+            if (robot.flagNewPositionData)
             {
-                textBoxInfo.Text += "Info de position :" + ;
-                textBoxInfo.ScrollToEnd();
+                AsservDisplay.UpdatePolarOdometrySpeed(robot.xpos, robot.ypos, robot.angle);
                 robot.flagNewPositionData = false;
-            } */
+            }
+
             WorldMap.UpdateRobotLocation(new WpfSimplifiedWorldMapDisplayNS.Location(robot.xpos, robot.ypos, robot.angle, 0, 0, 0));
 
         }
@@ -336,15 +340,16 @@ namespace RobotInterface
 
                 case 0x40:
                     robot.flagNewVitesseData = true;
-                    robot.vitesseMoteurGauche= msgPayload[0];
-                    robot.vitesseMoteurDroit = msgPayload[1];
+                    robot.vitesseMoteurGauche = BitConverter.ToSingle(msgPayload, 0);
+                    robot.vitesseMoteurDroit = BitConverter.ToSingle(msgPayload, 4);
+                    //robot.vitesseMoteurGauche= msgPayload[0];
+                    //robot.vitesseMoteurDroit = msgPayload[1];
                     break;
 
                 case 0x41:
-                    robot.flagNewVitesseConsigneData = true;
-                    robot.vitesseGaucheConsigne = BitConverter.ToSingle(msgPayload, 0);
-                    robot.vitesseDroiteConsigne = BitConverter.ToSingle(msgPayload, 4);
-                    
+                    robot.flagNewVitessePolaireConsigneData = true;
+                    robot.vitesseLineaireConsigne = BitConverter.ToSingle(msgPayload, 0);
+                    robot.vitesseAngulaireConsigne = BitConverter.ToSingle(msgPayload, 4);
                     break;
 
                 case 0x80: // Text transmission
@@ -353,7 +358,7 @@ namespace RobotInterface
                     break;
 
                 case 0x61:
-                    //robot.flagNewPositionData = true;
+                    robot.flagNewPositionData = true;
                     //string display = " ";
                     byte[] xpos_array = msgPayload.GetRange(4, 4);
                     robot.xpos = xpos_array.GetFloat();
@@ -370,9 +375,8 @@ namespace RobotInterface
                     byte[] vitesseAngulaire_array = msgPayload.GetRange(20, 4);
                     float vitesseAngulaire = vitesseAngulaire_array.GetFloat();
 
-                    //display = "x=" + xpos;  //+ ";y=" + ypos + ";angle=" + angle + ";vit_lin=" + vitesseLineaire + ";vit_angle="+ vitesseAngulaire;
-                   // AsservDisplay.UpdatePolarSpeedConsigneValues(xpos, ypos, angle);
-                   //AsservDisplay.UpdatePolarOdometrySpeed(robot.xpos, robot.ypos, robot.angle);
+                    //AsservDisplay.UpdatePolarOdometrySpeed(robot.xpos, robot.ypos, robot.angle);
+
                     break;
 
                 case 0x51: //SetRobotState
@@ -461,13 +465,13 @@ namespace RobotInterface
             //Label_VitesseGauche.Content = "Vitesse Gauche : " + 10 + " %";
             //Label_VitesseDroit.Content = "Vitesse Droit : " + 10 + " %";
 
-            float droit = 1f;
-            float gauche = 1f;
-            byte[] arraydroit = BitConverter.GetBytes(droit);
-            byte[] arraygauche = BitConverter.GetBytes(gauche);
+            float lineaire = 1f;
+            float angulaire = 0f;
+            byte[] arraylineaire = BitConverter.GetBytes(lineaire);
+            byte[] arrayangulaire = BitConverter.GetBytes(angulaire);
             byte[] dataToSend = new byte[8]; //sending 2*4 bytes (float)
-            Buffer.BlockCopy(arraydroit, 0, dataToSend, 0, 4);
-            Buffer.BlockCopy(arraygauche, 0, dataToSend, 4, 4);
+            Buffer.BlockCopy(arraylineaire, 0, dataToSend, 0, 4);
+            Buffer.BlockCopy(arrayangulaire, 0, dataToSend, 4, 4);
 
             UartEncodeAndSendMessage(0x0041, dataToSend.Length, dataToSend);
         }
